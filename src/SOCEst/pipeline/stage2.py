@@ -13,13 +13,26 @@ class DataTransformationTrainingPipeline:
     
     def main(self):
         config = ConfigurationManager()
+        
         data_transformation_config = config.get_data_transformation_config()
+        
         data_transformation = DataTransformation(config=data_transformation_config)
-        cycles = data_transformation.get_discharge_whole_cycle()
-
-        train_x, train_y, test_x, test_y = data_transformation.get_discharge_multiple_step(cycles)
-        train_y = data_transformation.keep_only_y_end(train_y)
-        test_y = data_transformation.keep_only_y_end(test_y)
+        
+        train_x, train_y, test_x, test_y = [], [], [], []
+        
+        for dataset_name in data_transformation_config.training_datasets:
+            
+            cycles = data_transformation.get_discharge_whole_cycle(dataset_name)
+            train_x_each, train_y_each, test_x_each, test_y_each = data_transformation.get_discharge_multiple_step(cycles)
+            train_y_each = data_transformation.keep_only_y_end(train_y_each)
+            test_y_each = data_transformation.keep_only_y_end(test_y_each)
+            
+            # Append results to the lists
+            train_x.append(train_x_each)
+            train_y.append(train_y_each)
+            test_x.append(test_x_each)
+            test_y.append(test_y_each)
+            
 
         logger.info("Training and test sets are prepared and are ready to train")
 

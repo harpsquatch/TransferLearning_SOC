@@ -1,17 +1,37 @@
 artifacts_root: artifacts
 
 
+
+
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_URL: https://prod-dcd-datasets-cache-zipfiles.s3.eu-west-1.amazonaws.com/cp3473x7xv-3.zip
-  local_data_file: artifacts/data_ingestion/data.zip
+  source_URL:
+  - LG: https://prod-dcd-datasets-cache-zipfiles.s3.eu-west-1.amazonaws.com/cp3473x7xv-3.zip
+  - Calce: https://www.kaggle.com/datasets/harpree/calce-battery-data/download?datasetVersionNumber=1          #Kaggle needs authentication, can be solved by building the API 
+  - Nasa: https://www.kaggle.com/datasets/harpree/nasa-discharge-battery-data/download?datasetVersionNumber=1  #Kaggle needs authentication, can be solved by building the API
+  - Madison: https://www.kaggle.com/datasets/harpree/madison-battery-data/download?datasetVersionNumber=1      #Kaggle needs authentication, can be solved by building the API
   unzip_dir: artifacts/data_ingestion
 
 data_transformation: 
   root_dir: artifacts/data_transformation
-  data_path: artifacts/data_ingestion/LG 18650HG2 Li-ion Battery Data and Example Deep Neural Network xEV SOC Estimator Script\LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020
-  train_names: ['\0degC\589_LA92']
-  test_names: ['\0degC\589_Mixed1']
+ 
+  data_path: 
+    LG: artifacts/data_ingestion/LG 18650HG2 Li-ion Battery Data and Example Deep Neural Network xEV SOC Estimator Script\LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020
+    Calce: artifacts/data_ingestion/CALCE
+    Nasa: artifacts/data_ingestion/NASA
+    Madison: artifacts/data_ingestion/Madison
+
+  train_names_dictionary: 
+    LG: ['\0degC\589_LA92']
+    Calce: ['\Train\TBJDST_050']
+    Nasa:  ['B0007_discharge']                         
+    Madison: ['\03-18-17_02.17 25degC_Cycle_1_Pan18650PF'] 
+  
+  test_names_dictionary: 
+    LG: ['\0degC\589_LA92']
+    Calce: ['\Test\TFUDS_050']
+    Nasa: ['B0025_discharge']
+    Madison: ['\03-21-17_09.38 25degC_LA92_Pan18650PF'] 
 
 model_trainer:
   root_dir: artifacts/model_trainer

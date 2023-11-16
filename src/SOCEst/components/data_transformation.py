@@ -11,18 +11,35 @@ from sklearn.preprocessing import MinMaxScaler
 class DataTransformation: 
     def __init__(self, config: DataTransformationConfig): 
         self.config = config
-    
-    def get_discharge_whole_cycle(self):
-        train = self._get_data(self.config.train_names, self.config.downsampling, self.config.output_capacity, self.config.output_time)
-        test = self._get_data(self.config.test_names, self.config.downsampling, self.config.output_capacity, self.config.output_time)
+        
+    def get_discharge_whole_cycle(self, dataset):
+        train = self._get_data(dataset, self.config.train_names,self.config.downsampling, self.config.output_capacity, self.config.output_time)
+        test = self._get_data(dataset, self.config.test_names, self.config.downsampling, self.config.output_capacity, self.config.output_time)
         train, test = self._scale_x(train, test, scale_test=self.config.scale_test)
         return (train, test)
+    
+    def _get_data(self,dataset,names, downsampling, output_capacity, output_time=False):
+            if dataset == "LG":
+                names = names.LG
+                return self.Lg_get_data(names , downsampling, output_capacity, output_time)
+            elif dataset == "Calce":
+                names = names.Calce
+                return self.Calce_get_data(names , downsampling, output_capacity, output_time)
+            elif dataset == "Nasa":
+                names = names.Nasa
+                return self.Nasa_get_data(names , downsampling, output_capacity, output_time)
+            elif dataset == "Madison":
+                names = names.Madison
+                return self.Madison_get_data(names , downsampling, output_capacity, output_time)
+            else:
+                raise ValueError(f"Unsupported dataset type: {dataset}")
+
 
         
-    def _get_data(self, names, downsampling, output_capacity, output_time=False):
+    def Lg_get_data(self, names, downsampling, output_capacity, output_time=False):
         cycles = []
         for name in names:
-            cycle = pd.read_csv(self.config.data_path + name + '.csv', skiprows=30)
+            cycle = pd.read_csv(self.config.data_path.LG + name + '.csv', skiprows=30)
             cycle.columns = ['Time Stamp','Step','Status','Prog Time','Step Time','Cycle',
                             'Cycle Level','Procedure','Voltage','Current','Temperature','Capacity','WhAccu','Cnt','Empty']
             cycle = cycle[(cycle["Status"] == "TABLE") | (cycle["Status"] == "DCH")]
@@ -59,6 +76,88 @@ class DataTransformation:
             cycles.append((x, y))
 
         return cycles 
+    
+    def Calce_get_data(self, names,downsampling ,output_capacity, output_time=False):
+        cycles = []
+        for name in names:
+            cycle = pd.read_csv(self.config.data_path.Calce + name + '.csv')
+
+            x = cycle[["V", "I", "T"]].to_numpy()
+            y = cycle[["SOC"]].to_numpy()                  
+
+            if np.isnan(np.min(x)) or np.isnan(np.min(y)):
+                self.logger.info("There is a NaN in cycle " + name + ", removing row")
+                x = x[~np.isnan(x).any(axis=1)]
+                y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
+
+            cycles.append((x, y))
+
+        return cycles
+    
+    def Nasa_get_data(self, names,downsampling, output_capacity, output_time=False):
+        cycles = []
+        for name in names:
+            file_path = os.path.join(self.config.data_path.Nasa, f"{name}.xlsx")
+            cycle = pd.read_excel(file_path, sheet_name='Sheet1')
+            x = cycle[["Voltage_measured", "Current_measured", "Temperature_measured"]].to_numpy()
+
+            max_discharge = abs(min(cycle["Capacity"]))
+            cycle["SoC Capacity"] = max_discharge + cycle["Capacity"]
+            cycle["SoC Percentage"] = cycle["SoC Capacity"] / max(cycle["SoC Capacity"])
+            x = cycle[["Voltage_measured", "Current_measured", "Temperature_measured"]].to_numpy()
+
+            if output_time:
+                cycle['Prog Time'] = cycle['Prog Time'].apply(self._time_string_to_seconds)
+                cycle['Time in Seconds'] = cycle['Prog Time'] - cycle['Prog Time'][0]
+
+            if output_capacity:
+                if output_time:
+                    y = cycle[["SoC Capacity", "Time in Seconds"]].to_numpy()
+                else:
+                    y = cycle[["SoC Capacity"]].to_numpy()
+            else:
+                if output_time:
+                    y = cycle[["SoC Percentage", "Time in Seconds"]].to_numpy()
+                else:
+                    y = cycle[["SoC Percentage"]].to_numpy()
+
+            if np.isnan(np.min(x)) or np.isnan(np.min(y)):
+                self.logger.info("There is a NaN in cycle " + name + ", removing row")
+                x = x[~np.isnan(x).any(axis=1)]
+                y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
+            
+            if downsampling:
+                x = x[0::10]
+                y = y[0::10]
+
+            cycles.append((x, y))
+
+        return cycles
+    
+    def Madison_get_data(self, names,downsampling ,output_capacity, output_time=False):
+        cycles = []
+        for name in names:
+            cycle = pd.read_csv(self.config.data_path.Madison + name + '.csv')
+            
+            cycle.columns = ['Current', 'Voltage', 'Temperature', 'SOC']
+            x = cycle[['Current', 'Voltage', 'Temperature']].values
+            y = cycle['SOC'].values
+
+            if np.isnan(np.min(x)) or np.isnan(np.min(y)):
+                self.logger.info("There is a NaN in cycle " + name + ", removing row")
+                x = x[~np.isnan(x).any(axis=1)]
+                y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
+            
+            if downsampling:
+                x = x[0::10]
+                y = y[0::10]
+
+            y = np.expand_dims(y, axis=1)  # Adds Cycle dimension at the beginning
+             # Add dimensions to indicate Cycle, Row, and Column,
+             # x = np.expand_dims(x, axis=2)  # Adds Cycle dimension at the beginning
+            cycles.append((x, y))
+
+        return cycles
     
     
     def _time_string_to_seconds(self, input_string):
@@ -153,8 +252,5 @@ class DataTransformation:
         else:
             return y[:,::self.config.steps]
     
-        
-    
-    
-    
+
     

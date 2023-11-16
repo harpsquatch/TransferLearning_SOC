@@ -4,6 +4,9 @@ from SOCEst.entity.config_entity import DataIngestionConfig     #Dataingestion c
 from SOCEst.entity.config_entity import DataTransformationConfig
 from SOCEst.entity.config_entity import ModelTrainerConfig
 from SOCEst.entity.config_entity import ModelEvaluationConfig
+from box import ConfigBox
+from box import Box, BoxList
+
 
 
 # This class will be responsible for managing configuration files. It reads config.yaml and creates necessary necessary directories in the artifacts folder  
@@ -12,12 +15,10 @@ class ConfigurationManager:
     #The constructor take yaml file paths as arguments. 
     def __init__(self, config_filepath = CONFIG_FILE_PATH, #Config.yaml path 
                        params_filepath = PARAMS_FILE_PATH, #Params.yaml path 
-                       schema_filepath = SCHEMA_FILE_PATH  #Schema,yaml path
                 ): 
 
         self.config = read_yaml(config_filepath) #Config.yaml file is being read 
         self.params = read_yaml(params_filepath) #Params.yaml file is being read 
-        self.schema = read_yaml(schema_filepath) #Schema,yaml file is being read 
 
 
         create_directories([self.config.artifacts_root]) #artifacts_root = artifacts so new folder artifact is created with this
@@ -31,7 +32,6 @@ class ConfigurationManager:
         data_ingestion_config = DataIngestionConfig(     #Here the data ingestion class is being inititalised by passing the neccessary variables. 
             root_dir=config.root_dir,                    
             source_URL=config.source_URL,
-            local_data_file=config.local_data_file,
             unzip_dir=config.unzip_dir 
         )
 
@@ -43,12 +43,26 @@ class ConfigurationManager:
         params = self.params.data_parameters
         
         create_directories([config.root_dir]) #Create the root_dir = artifacts/data_transformation 
+
+        #Filter out the train_names_dictionary based on what is given in training datasets
+        filtered_dictionary = {dataset: config.train_names_dictionary.get(dataset, f"{dataset} not found in train_names") for dataset in params.training_datasets}
+
+        #With the following we can call config.train_names.LG to get the respective training names
+        train_names = ConfigBox(filtered_dictionary)
         
-        data_transformation_config = DataTransformationConfig(     #Here the data ingestion class is being inititalised by passing the neccessary variables. 
-            root_dir=config.root_dir,     
+        #Filter out the test_names_dictionary based on what is given in training datasets
+        filtered_dictionary = {dataset: config.test_names_dictionary.get(dataset, f"{dataset} not found in train_names") for dataset in params.training_datasets}
+        
+        #With the following we can call config.test_names.LG to get the respective training names
+        test_names = ConfigBox(filtered_dictionary)
+
+        
+        data_transformation_config = DataTransformationConfig(
+            root_dir=config.root_dir,
+            training_datasets = params.training_datasets,     
             data_path=config.data_path,
-            train_names = config.train_names,
-            test_names = config.test_names,
+            train_names = train_names,
+            test_names = test_names,
             downsampling = params.downsampling,
             output_capacity = params.output_capacity,
             scale_test = params.scale_test,

@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List  # Add this import
+from typing import List,Dict  # Add this import
 
 @dataclass(frozen=True)   #This is a decorator
 class DataIngestionConfig:
     root_dir: Path 
-    source_URL: str
-    local_data_file: Path
+    source_URL: List[Dict[str, str]]
+    #local_data_file: Path
     unzip_dir: Path
 
 #The above class takes rootdir, source_url, local_data_file, and unzip_dir as the variables. This we will get from config.yaml and then it will be used in the configuration.py file.
@@ -14,9 +14,10 @@ class DataIngestionConfig:
 @dataclass(frozen=True)   #This is a decorator
 class DataTransformationConfig:
     root_dir: Path 
-    data_path: Path
-    train_names: List[str]
-    test_names: List[str]
+    training_datasets: str
+    data_path: Dict[str, Path]
+    train_names: Dict[str, List[str]]
+    test_names: Dict[str, List[str]]
     downsampling: bool
     output_capacity: bool
     scale_test: bool

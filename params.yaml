@@ -1,4 +1,5 @@
 data_parameters:
+  training_datasets: ['Madison']
   downsampling: True
   output_capacity: False 
   scale_test: False 
