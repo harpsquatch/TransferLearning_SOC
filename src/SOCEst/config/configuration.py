@@ -79,6 +79,14 @@ class ConfigurationManager:
         
         create_directories([config.root_dir]) #Create the root_dir = artifacts/data_transformation 
         
+        filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.source_model_name}
+        box_filtered_dictionary = ConfigBox(filtered_dictionary)
+        
+        pretrained_model_path = [ ]
+        for model_name in params.source_model_name:
+            path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
+            pretrained_model_path.append(path)
+        
         model_trainer_config = ModelTrainerConfig(
             root_dir=config.root_dir,     
             model_name=config.model_name,
@@ -105,7 +113,8 @@ class ConfigurationManager:
             layer = params.layer, 
             objective_metric = params.objective_metric, 
             save_dir = config.save_dir, 
-            experiment_name = config.experiment_name 
+            experiment_name = config.experiment_name,
+            pretrained_model_path = pretrained_model_path 
         )
         
         return model_trainer_config
@@ -117,10 +126,19 @@ class ConfigurationManager:
         params = self.params.model_parameters
 
         create_directories([config.root_dir])
+        
+        
+        filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.source_model_name}
+        box_filtered_dictionary = ConfigBox(filtered_dictionary)
+        
+        model_path = [ ]
+        for model_name in config.model_for_evaluation:
+            path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
+            model_path.append(path)
 
         model_evaluation_config = ModelEvaluationConfig(
             root_dir=config.root_dir,
-            model_path = config.model_path,
+            model_path = model_path,
             all_params=params,
             metric_file_name = config.metric_file_name,
             mlflow_uri="https://dagshub.com/harpreets924/LG-18650HG2-SOC-Estimation.mlflow",

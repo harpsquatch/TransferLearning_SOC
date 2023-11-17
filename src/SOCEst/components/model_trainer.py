@@ -23,6 +23,8 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from kerastuner import HyperModel
 from SOCEst.entity.config_entity import (ModelTrainerConfig)   
 
+from SOCEst.components.transfer_learning import TransferLearningModel
+
 
 class modelHO_New(HyperModel):
      
@@ -153,6 +155,8 @@ class modelHO_SEGAN_LSTM(HyperModel):
             model.add(Dense(self.dense_out, activation='leaky_relu'))
             model.compile(loss=loss_f, optimizer=opt, metrics=['mse', 'mae', 'mape', tf.keras.metrics.RootMeanSquaredError(name='rmse')])
             return model
+        
+
 
 class ModelTrainer: 
     def __init__(self, config: ModelTrainerConfig): 
@@ -194,6 +198,37 @@ class ModelTrainer:
         best_model = tuner.get_best_models(num_models=1)[0]
 
         return best_model, history
+    
+    def transfer_learning(self, X, y, model, technique):
+        tf_model = TransferLearningModel()
+        optimizer = tf.keras.optimizers.Adam(lr=0.00001)
+        loss_f = tf.keras.losses.Huber()
+        es = EarlyStopping(monitor='val_loss', patience=self.patience)
+
+        if technique == 1:
+            model = tf_model.transfer_learning1(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 2:
+            model = self.transfer_learning2(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 3:
+            model = tf_model.transfer_learning3(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 4:
+            model = tf_model.transfer_learning4(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 5:
+            model = tf_model.transfer_learning5(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 6:
+            model = tf_model.transfer_learning6(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 7:
+            model = tf_model.transfer_learning7(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 8:
+            model = tf_model.transfer_learning8(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 9:
+            model = tf_model.transfer_learning9(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        elif technique == 10:
+            model = tf_model.transfer_learning10(X, y, model, optimizer, loss_f, es, self.epochs, self.batch_size, self.validation_split)
+        else:
+            raise ValueError("Invalid transfer learning technique")
+
+        return model
 
     def checkTunerClass(self, experiment):
         hypermodel = modelHO_SEGAN_LSTM(self.config) # for class tuner

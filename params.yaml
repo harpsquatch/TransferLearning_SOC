@@ -1,5 +1,15 @@
+mode:
+  training_mode: 'model_training'
+
+TL_model_parameters:
+  source_model_name: model.h5
+  target_dataset: 'Calce' 
+  pretrained_model: ['model1']
+  transfer_learning_technique: [1,2]
+
+
 data_parameters:
-  training_datasets: ['Madison']
+  training_datasets: ['Madison','Nasa']
   downsampling: True
   output_capacity: False 
   scale_test: False 
@@ -29,4 +39,4 @@ model_parameters:
   dropoutRateStep: 0.1
   layer: 'bilstm' # Change Here 'lstm', 'bilstm', 'gru', 'bigru'
   objective_metric: 'mse'
-  #project: '', # Model being used for CALCE
+

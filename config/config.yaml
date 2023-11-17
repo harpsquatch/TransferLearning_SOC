@@ -1,8 +1,5 @@
 artifacts_root: artifacts
 
-
-
-
 data_ingestion:
   root_dir: artifacts/data_ingestion
   source_URL:
@@ -34,14 +31,20 @@ data_transformation:
     Madison: ['\03-21-17_09.38 25degC_LA92_Pan18650PF'] 
 
 model_trainer:
+  mode: "Transfer_Learning"
   root_dir: artifacts/model_trainer
   experiment_name: ABC 
-  model_name: model.h5
+  pretrained_model_path_dictionary:
+    model1: artifacts/data_ingestion/CALCE
+    model2: artifacts/data_ingestion/CALCE
 
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
-  model_path: artifacts\model_trainer\results\ABC\trained_model\ABC_best.h5
+  model_for_evaluation: ['model1', 'model2']
+  model_path_dictionary:
+    model1: artifacts/data_ingestion/CALCE
+    model2: artifacts/data_ingestion/CALCE
   metric_file_name: artifacts/model_evaluation/metrics.json
 
 
