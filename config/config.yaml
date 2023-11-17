@@ -31,12 +31,10 @@ data_transformation:
     Madison: ['\03-21-17_09.38 25degC_LA92_Pan18650PF'] 
 
 model_trainer:
-  mode: "Transfer_Learning"
-  root_dir: artifacts/model_trainer
-  experiment_name: ABC 
+  root_dir: artifacts/model_trainer/
   pretrained_model_path_dictionary:
-    model1: artifacts/data_ingestion/CALCE
-    model2: artifacts/data_ingestion/CALCE
+    Madison_17112023_2055_best: artifacts\model_trainerMadison_17112023_2055\trained_model\Madison_17112023_2055_best.h5
+    #model2: artifacts/data_ingestion/CALCE
 
 
 model_evaluation:

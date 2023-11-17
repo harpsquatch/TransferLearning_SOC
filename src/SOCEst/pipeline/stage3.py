@@ -15,59 +15,49 @@ STAGE_NAME = "Model Training Stage"
 class ModelTrainingPipeline:
     def __init__(self):
         pass
-    def model_training(self): 
-        config = ConfigurationManager()
+    def model_training(self, config): 
         
         #Get the data from stage3 which is specifically prepared for model training
         data_pipeline = DataTransformationTrainingPipeline()
         train_x, train_y, test_x, test_y = data_pipeline.main()
 
-        #Train and then return the model
-        model_trainer_config = config.get_model_trainer_config()
-        model_trainer = ModelTrainer(config=model_trainer_config)
-        model, history = model_trainer.tune_modelClass(train_x, train_y)
+        model_trainer = ModelTrainer(config=config)
+        model, _ = model_trainer.tune_modelClass(train_x, train_y)
         
         #Save the model
         model.summary()
-        model.save(model_trainer.directory + '/models')
+        #model.save(f"{model_trainer.directory}/models/{os.path.basename(model_trainer.directory)}.h5")
         
-    def transfer_learning(self):
-        config = ConfigurationManager()
+    def transfer_learning(self,config):
         
-        #Initialise the data_transformation config
-        data_transformation_config = config.get_data_transformation_config()
-        data_transformation = DataTransformation(config=data_transformation_config) 
-        
-        #The same configuration for the transfer learning will be used 
-        model_trainer_config = config.model_trainer_config()
-        model_trainer = ModelTrainer(config=model_trainer_config)
-        
-        #get training and testing dataset for target_dataset
-        cycles = data_transformation.get_discharge_whole_cycle(model_trainer_config.target_dataset )
-        train_x, train_y, test_x, test_y = data_transformation.get_discharge_multiple_step(cycles)
-        train_y = data_transformation.keep_only_y_end(test_y)
-        test_y = data_transformation.keep_only_y_end(test_y)
+        #Get the data from stage3 which is specifically prepared for model training
+        data_pipeline = DataTransformationTrainingPipeline()
+        train_x, train_y, test_x, test_y = data_pipeline.main()
 
+        model_trainer = ModelTrainer(config=config)
+        
         #load the model from the model_path provided
-        for model_path in model_trainer_config.pretrained_model_path:
+        for model_path in config.pretrained_model_path:
             with h5py.File(model_path, 'r') as file:
                 model = load_model(file)
                 #Implement the transfer learning and return the model
-                for tl_technique in model_trainer_config.transfer_learning_technique:
+                for tl_technique in config.transfer_learning_technique:
                     tl_model = model_trainer.transfer_learning(train_x, train_y, model, tl_technique)
                     tl_model.summary()
                     #Save the new model
-                    tl_model.save(model_trainer.directory + '/models')
-        
+                    tl_model.save(f"{model_trainer.directory+config.experiment_name}/models/{config.experiment_name}.h5")
+                                
     
     def main(self):
         config = ConfigurationManager()
-        model_trainer_config = config.model_trainer_config()
+        mode = config.parameters.mode
+        model_trainer_config = config.get_model_trainer_config()
+        transfer_learning_config = config.get_transfer_learning_config()
         
-        if model_trainer_config.mode == 'model_training':
-            self.model_training()
-        elif model_trainer_config.mode == 'transfer_learning':
-            self.transfer_learning()
+        if mode == 'model_training':
+            self.model_training(model_trainer_config)
+        elif mode == 'transfer_learning':
+            self.transfer_learning(transfer_learning_config)
         else:
             print("Invalid mode. Choose either 'model_training' or 'transfer_learning'")
         

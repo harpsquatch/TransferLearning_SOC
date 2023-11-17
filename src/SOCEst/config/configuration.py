@@ -4,8 +4,11 @@ from SOCEst.entity.config_entity import DataIngestionConfig     #Dataingestion c
 from SOCEst.entity.config_entity import DataTransformationConfig
 from SOCEst.entity.config_entity import ModelTrainerConfig
 from SOCEst.entity.config_entity import ModelEvaluationConfig
+from SOCEst.entity.config_entity import TransferLearningConfig
 from box import ConfigBox
 from box import Box, BoxList
+from datetime import datetime
+
 
 
 
@@ -15,10 +18,11 @@ class ConfigurationManager:
     #The constructor take yaml file paths as arguments. 
     def __init__(self, config_filepath = CONFIG_FILE_PATH, #Config.yaml path 
                        params_filepath = PARAMS_FILE_PATH, #Params.yaml path 
+              
                 ): 
 
         self.config = read_yaml(config_filepath) #Config.yaml file is being read 
-        self.params = read_yaml(params_filepath) #Params.yaml file is being read 
+        self.parameters = read_yaml(params_filepath) #Params.yaml file is being read 
 
 
         create_directories([self.config.artifacts_root]) #artifacts_root = artifacts so new folder artifact is created with this
@@ -40,18 +44,30 @@ class ConfigurationManager:
     
     def get_data_transformation_config(self) -> DataTransformationConfig: 
         config = self.config.data_transformation
-        params = self.params.data_parameters
+        params = self.parameters.data_parameters
+        mode = self.parameters.mode
+        model_training_datasets = params.training_datasets
+        target_dataset = self.parameters.transfer_learning_parameters.target_dataset
         
         create_directories([config.root_dir]) #Create the root_dir = artifacts/data_transformation 
 
+        if mode == "model_training":
+            training_datasets = model_training_datasets
+
+        elif mode == "transfer_learning":
+            training_datasets = target_dataset
+            
+        else: 
+            print("Incorrect mode ")
+        
         #Filter out the train_names_dictionary based on what is given in training datasets
-        filtered_dictionary = {dataset: config.train_names_dictionary.get(dataset, f"{dataset} not found in train_names") for dataset in params.training_datasets}
+        filtered_dictionary = {dataset: config.train_names_dictionary.get(dataset, f"{dataset} not found in train_names") for dataset in training_datasets}
 
         #With the following we can call config.train_names.LG to get the respective training names
         train_names = ConfigBox(filtered_dictionary)
         
         #Filter out the test_names_dictionary based on what is given in training datasets
-        filtered_dictionary = {dataset: config.test_names_dictionary.get(dataset, f"{dataset} not found in train_names") for dataset in params.training_datasets}
+        filtered_dictionary = {dataset: config.test_names_dictionary.get(dataset, f"{dataset} not found in train_names") for dataset in training_datasets}
         
         #With the following we can call config.test_names.LG to get the respective training names
         test_names = ConfigBox(filtered_dictionary)
@@ -59,7 +75,7 @@ class ConfigurationManager:
         
         data_transformation_config = DataTransformationConfig(
             root_dir=config.root_dir,
-            training_datasets = params.training_datasets,     
+            training_datasets = training_datasets,     
             data_path=config.data_path,
             train_names = train_names,
             test_names = test_names,
@@ -71,25 +87,18 @@ class ConfigurationManager:
         )
         
         return data_transformation_config
-    
+
     
     def get_model_trainer_config(self) -> ModelTrainerConfig: 
         config = self.config.model_trainer
-        params = self.params.model_parameters
-        
+        mode = self.parameters.mode
+        params = self.parameters.model_parameters
+        experiment_name = f"{'_'.join(self.parameters.data_parameters.training_datasets)}_{datetime.now().strftime('%d%m%Y_%H%M')}"
+                
         create_directories([config.root_dir]) #Create the root_dir = artifacts/data_transformation 
-        
-        filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.source_model_name}
-        box_filtered_dictionary = ConfigBox(filtered_dictionary)
-        
-        pretrained_model_path = [ ]
-        for model_name in params.source_model_name:
-            path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
-            pretrained_model_path.append(path)
-        
+                
         model_trainer_config = ModelTrainerConfig(
             root_dir=config.root_dir,     
-            model_name=config.model_name,
             steps = params.steps,
             num_features = params.num_features,
             dense_out = params.dense_out,
@@ -112,23 +121,51 @@ class ConfigurationManager:
             dropoutRateStep = params.dropoutRateStep,
             layer = params.layer, 
             objective_metric = params.objective_metric, 
-            save_dir = config.save_dir, 
-            experiment_name = config.experiment_name,
-            pretrained_model_path = pretrained_model_path 
+            experiment_name = experiment_name,
         )
         
         return model_trainer_config
+    
+    def get_transfer_learning_config(self) -> TransferLearningConfig: 
+        config = self.config.model_trainer
+        params = self.parameters.transfer_learning_parameters
+        target_dataset = self.parameters.transfer_learning_parameters.target_dataset
+        experiment_name = f"{'_'.join(target_dataset)}_{datetime.now().strftime('%d%m%Y_%H%M%S')}"
+
+        #The following is just transfer learning, Get the path for the pretrained paths
+        filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.pretrained_model}
+        box_filtered_dictionary = ConfigBox(filtered_dictionary)
+        
+        pretrained_model_path = [ ]
+        for model_name in params.pretrained_model:
+            path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
+            pretrained_model_path.append(path)
+        
+                
+        transfer_learning_config = TransferLearningConfig(
+            patience = params.patience,
+            root_dir = config.root_dir,
+            epochs = params.epochs,
+            batch_size = params.batch_size,
+            validation_split = params.validation_split,
+            layer = params.layer, 
+            pretrained_model_path = pretrained_model_path,
+            experiment_name = experiment_name, 
+            target_dataset = params.target_dataset,
+            pretrained_model = params.pretrained_model,
+            transfer_learning_technique = params.transfer_learning_technique
+        )
+        
+        return transfer_learning_config
     
     
     
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config = self.config.model_evaluation
-        params = self.params.model_parameters
-
+        params = self.parameters.model_parameters
         create_directories([config.root_dir])
         
-        
-        filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.source_model_name}
+        filtered_dictionary = {model: config.model_path_dictionary.get(model, f"{model} not found in train_names") for model in config.model_for_evaluation}
         box_filtered_dictionary = ConfigBox(filtered_dictionary)
         
         model_path = [ ]

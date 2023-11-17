@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from keras.models import Sequential
-from keras.layers.core import Dense, Dropout
+from keras.layers import Dense, Dropout
 from keras.layers import LSTM, Bidirectional, GRU
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras_tuner import RandomSearch, BayesianOptimization, Hyperband

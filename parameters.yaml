@@ -1,15 +1,18 @@
-mode:
-  training_mode: 'model_training'
+mode: 'transfer_learning'  #model_training
 
-TL_model_parameters:
-  source_model_name: model.h5
-  target_dataset: 'Calce' 
-  pretrained_model: ['model1']
-  transfer_learning_technique: [1,2]
+transfer_learning_parameters:
+  target_dataset: ['Calce'] 
+  pretrained_model: ['Madison_17112023_2055_best']
+  transfer_learning_technique: [10]
+  patience: 50
+  epochs: 1000
+  batch_size: 128
+  validation_split: 0.2
+  layer: 'bilstm'
 
 
 data_parameters:
-  training_datasets: ['Madison','Nasa']
+  training_datasets: ['Madison']
   downsampling: True
   output_capacity: False 
   scale_test: False 
