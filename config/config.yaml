@@ -32,18 +32,21 @@ data_transformation:
 
 model_trainer:
   root_dir: artifacts/model_trainer/
+  experiment_name_tracker: [ ]
   pretrained_model_path_dictionary:
     Madison_17112023_2055_best: artifacts\model_trainerMadison_17112023_2055\trained_model\Madison_17112023_2055_best.h5
+    LG: C:\Users\Harpreet Singh\Documents\Machine Learning\LG-18650HG2-SOC-Estimation\artifacts\model_trainer\results\ABC\trained_model\LG.h5
     #model2: artifacts/data_ingestion/CALCE
 
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
-  model_for_evaluation: ['model1', 'model2']
-  model_path_dictionary:
-    model1: artifacts/data_ingestion/CALCE
-    model2: artifacts/data_ingestion/CALCE
-  metric_file_name: artifacts/model_evaluation/metrics.json
+  model_path: artifacts/model_trainer/
+  metric_file_name: artifacts/model_evaluation/
+#  model_for_evaluation: ['model1', 'model2']
+#  model_path_dictionary:
+#    model1: artifacts/data_ingestion/CALCE
+#    model2: artifacts/data_ingestion/CALCE
 
 
 

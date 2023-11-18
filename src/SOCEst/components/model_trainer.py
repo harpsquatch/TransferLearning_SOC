@@ -176,7 +176,7 @@ class ModelTrainer:
         )
         es = EarlyStopping(monitor='val_loss', patience=self.config.patience) #What is val_loss? 
         
-        mc = ModelCheckpoint(self.directory + '/trained_model/%s_best.h5' % self.config.experiment_name, save_best_only=True, monitor='val_loss')
+        mc = ModelCheckpoint(self.directory + '/%s.h5' % self.config.experiment_name, save_best_only=True, monitor='val_loss')
         
         history = tuner.search(
             x=X,

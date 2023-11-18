@@ -9,8 +9,6 @@ class DataIngestionConfig:
     #local_data_file: Path
     unzip_dir: Path
 
-#The above class takes rootdir, source_url, local_data_file, and unzip_dir as the variables. This we will get from config.yaml and then it will be used in the configuration.py file.
-
 @dataclass(frozen=True)   #This is a decorator
 class DataTransformationConfig:
     root_dir: Path 
@@ -50,6 +48,7 @@ class ModelTrainerConfig:
     layer: str
     objective_metric: str
     experiment_name: str
+    experiment_name_tracker: List
     
 @dataclass(frozen=True)   #This is a decorator
 class TransferLearningConfig:
@@ -64,7 +63,7 @@ class TransferLearningConfig:
     layer: str
     pretrained_model_path: List
     experiment_name: str
-    
+    experiment_name_tracker: List
 
 @dataclass(frozen=True)
 class ModelEvaluationConfig:

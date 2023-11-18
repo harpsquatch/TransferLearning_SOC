@@ -93,7 +93,7 @@ class ConfigurationManager:
         config = self.config.model_trainer
         mode = self.parameters.mode
         params = self.parameters.model_parameters
-        experiment_name = f"{'_'.join(self.parameters.data_parameters.training_datasets)}_{datetime.now().strftime('%d%m%Y_%H%M')}"
+        experiment_name = f"{''.join(self.parameters.data_parameters.training_datasets)}_{datetime.now().strftime('%H%M')}"
                 
         create_directories([config.root_dir]) #Create the root_dir = artifacts/data_transformation 
                 
@@ -122,6 +122,7 @@ class ConfigurationManager:
             layer = params.layer, 
             objective_metric = params.objective_metric, 
             experiment_name = experiment_name,
+            experiment_name_tracker =  config.experiment_name_tracker
         )
         
         return model_trainer_config
@@ -129,8 +130,10 @@ class ConfigurationManager:
     def get_transfer_learning_config(self) -> TransferLearningConfig: 
         config = self.config.model_trainer
         params = self.parameters.transfer_learning_parameters
+        training_datasets = self.parameters.data_parameters.training_datasets
         target_dataset = self.parameters.transfer_learning_parameters.target_dataset
-        experiment_name = f"{'_'.join(target_dataset)}_{datetime.now().strftime('%d%m%Y_%H%M%S')}"
+        
+        experiment_name = f"{'_'.join(target_dataset)}_TL{params.transfer_learning_technique}{datetime.now().strftime('%H%M')}"
 
         #The following is just transfer learning, Get the path for the pretrained paths
         filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.pretrained_model}
@@ -153,7 +156,8 @@ class ConfigurationManager:
             experiment_name = experiment_name, 
             target_dataset = params.target_dataset,
             pretrained_model = params.pretrained_model,
-            transfer_learning_technique = params.transfer_learning_technique
+            transfer_learning_technique = params.transfer_learning_technique,
+            experiment_name_tracker =  config.experiment_name_tracker
         )
         
         return transfer_learning_config
@@ -165,21 +169,21 @@ class ConfigurationManager:
         params = self.parameters.model_parameters
         create_directories([config.root_dir])
         
-        filtered_dictionary = {model: config.model_path_dictionary.get(model, f"{model} not found in train_names") for model in config.model_for_evaluation}
-        box_filtered_dictionary = ConfigBox(filtered_dictionary)
+        #In case you want to pass the model_name and then evaluate 
+        #filtered_dictionary = {model: config.model_path_dictionary.get(model, f"{model} not found in train_names") for model in config.model_for_evaluation}
+        #box_filtered_dictionary = ConfigBox(filtered_dictionary)
         
-        model_path = [ ]
-        for model_name in config.model_for_evaluation:
-            path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
-            model_path.append(path)
+        #model_path = [ ]
+        #for model_name in config.model_for_evaluation:
+        #   path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
+        #    model_path.append(path)
 
         model_evaluation_config = ModelEvaluationConfig(
             root_dir=config.root_dir,
-            model_path = model_path,
+            model_path = config.model_path,
             all_params=params,
             metric_file_name = config.metric_file_name,
             mlflow_uri="https://dagshub.com/harpreets924/LG-18650HG2-SOC-Estimation.mlflow",
-           
         )
 
         return model_evaluation_config

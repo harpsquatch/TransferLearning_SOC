@@ -27,7 +27,7 @@ class ModelEvaluation:
         return rmse, mse
     
 
-    def log_into_mlflow(self,model_path,test_x,test_y):
+    def log_into_mlflow(self,model_path,experiment_name,test_x,test_y):
         
         with h5py.File(model_path, 'r') as file:
             model = load_model(file)
@@ -44,8 +44,8 @@ class ModelEvaluation:
             
             # Saving metrics as local
             scores = {"rmse": rmse,"mse":mse } #,  "flops":flops
-            save_json(path=Path(self.config.metric_file_name), data=scores)
-
+            save_json(path=Path(os.path.join(self.config.metric_file_name, f"{experiment_name}.json")), data=scores)
+                        
             mlflow.log_params(self.config.all_params)
 
             mlflow.log_metric("rmse", rmse)
