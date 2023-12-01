@@ -165,7 +165,7 @@ class ConfigurationManager:
     
     
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
-        config = self.config.model_evaluation
+        config = self.config.model_evaluation   
         params = self.parameters.model_parameters
         create_directories([config.root_dir])
         
@@ -183,7 +183,7 @@ class ConfigurationManager:
             model_path = config.model_path,
             all_params=params,
             metric_file_name = config.metric_file_name,
-            mlflow_uri="https://dagshub.com/harpreets924/LG-18650HG2-SOC-Estimation.mlflow",
+            mlflow_uri="https://dagshub.com/harpreets924/TransferLearning_SOC.mlflow",
         )
 
         return model_evaluation_config

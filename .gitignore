@@ -1050,3 +1050,6 @@ artifacts/model_trainerMadison_17112023_2055/Madison_17112023_2055/trial_69/chec
 artifacts/model_trainerMadison_17112023_2055/Madison_17112023_2055/trial_69/trial.json
 artifacts/model_trainerMadison_17112023_2055/models/model_trainerMadison_17112023_2055.h5
 artifacts/model_trainerMadison_17112023_2055/trained_model/Madison_17112023_2055_best.h5
+artifacts/data_ingestion/LG/LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020/0degC/01-12-18_01.14 589_Charge7.mat
+artifacts
+mlruns

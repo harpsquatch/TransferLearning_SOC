@@ -1,10 +1,10 @@
-mode: 'transfer_learning'  #model_training #transfer_learning
+mode: 'model_training'  #model_training #transfer_learning
 
 transfer_learning_parameters:
-  target_dataset: ['Calce'] 
-  pretrained_model: ['LG']
-  transfer_learning_technique: [1]
-  patience: 50
+  target_dataset: ['Nasa'] 
+  pretrained_model: ['LG_2230']
+  transfer_learning_technique: [7]
+  patience: 50  
   epochs: 1000
   batch_size: 128
   validation_split: 0.2
@@ -12,10 +12,10 @@ transfer_learning_parameters:
 
 
 data_parameters:
-  training_datasets: ['Madison']
+  training_datasets: ['LG']
   downsampling: True
   output_capacity: False 
-  scale_test: False 
+  scale_test: True 
   output_time: False
   steps: 30 
 
@@ -25,8 +25,8 @@ model_parameters:
   dense_out: 1
   num_hidden_units_1: 20
   patience: 50
-  epochs: 1000
-  max_tuner: 70
+  epochs: 1
+  max_tuner: 1
   batch_size: 128
   validation_split: 0.2
   numberOfLayers: 2

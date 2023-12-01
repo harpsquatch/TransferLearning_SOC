@@ -13,29 +13,32 @@ data_transformation:
   root_dir: artifacts/data_transformation
  
   data_path: 
-    LG: artifacts/data_ingestion/LG 18650HG2 Li-ion Battery Data and Example Deep Neural Network xEV SOC Estimator Script\LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020
-    Calce: artifacts/data_ingestion/CALCE
-    Nasa: artifacts/data_ingestion/NASA
-    Madison: artifacts/data_ingestion/Madison
+    LG: artifacts/data_ingestion/LG/LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020/
+    Calce: artifacts/data_ingestion/CALCE/
+    Nasa: artifacts/data_ingestion/NASA/
+    Madison: artifacts/data_ingestion/Madison/
 
   train_names_dictionary: 
-    LG: ['\0degC\589_LA92']
-    Calce: ['\Train\TBJDST_050']
+    LG: ['0degC/589_LA92','0degC/589_Mixed1','0degC/589_Mixed2','0degC/589_UDDS','0degC/589_US06','0degC/590_Mixed7','0degC/590_Mixed8','10degC/582_LA92','10degC/567_Mixed1','10degC/567_Mixed2','10degC/576_UDDS','10degC/567_US06','10degC/571_Mixed7','10degC/571_Mixed8','25degC/551_LA92','25degC/551_Mixed1','25degC/551_Mixed2','25degC/551_UDDS','25degC/551_US06','25degC/552_Mixed3','25degC/552_Mixed7','25degC/552_Mixed8','40degC/556_LA92','40degC/556_Mixed1','40degC/556_Mixed2','40degC/556_UDDS','40degC/556_US06','40degC/557_Mixed3','40degC/562_Mixed7','40degC/562_Mixed8','n10degC/596_LA92','n10degC/601_Mixed1','n10degC/601_Mixed2','n10degC/596_UDDS','n10degC/601_US06','n10degC/604_Mixed3','n10degC/604_Mixed7','n10degC/604_Mixed8','n20degC/610_LA92','n20degC/610_Mixed1','n20degC/610_Mixed2','n20degC/610_UDDS','n20degC/610_US06','n20degC/611_Mixed3','n20degC/611_Mixed7','n20degC/611_Mixed8']
+    Calce: ['Train/TBJDST_050','Train/TBJDST_080','Train/TBJDST_2550','Train/TBJDST_2580','Train/TBJDST_4550','Train/TBJDST_4580','Train/TDST_050','Train/TDST_080','Train/TDST_2550','Train/TDST_2580','Train/TDST_4550','Train/TDST_4580']
     Nasa:  ['B0007_discharge']                         
-    Madison: ['\03-18-17_02.17 25degC_Cycle_1_Pan18650PF'] 
+    Madison: ['03-18-17_02.17 25degC_Cycle_1_Pan18650PF','03-19-17_03.25 25degC_Cycle_2_Pan18650PF','03-19-17_09.07 25degC_Cycle_3_Pan18650PF','03-19-17_14.31 25degC_Cycle_4_Pan18650PF','03-20-17_01.43 25degC_US06_Pan18650PF','03-20-17_05.56 25degC_HWFTa_Pan18650PF','03-20-17_19.27 25degC_HWFTb_Pan18650PF','03-21-17_00.29 25degC_UDDS_Pan18650PF','03-21-17_09.38 25degC_LA92_Pan18650PF','03-21-17_16.27 25degC_NN_Pan18650PF','03-27-17_09.06 10degC_HWFET_Pan18650PF','03-27-17_09.06 10degC_LA92_Pan18650PF','03-27-17_09.06 10degC_NN_Pan18650PF','03-27-17_09.06 10degC_UDDS_Pan18650PF','03-27-17_09.06 10degC_US06_HWFET_UDDS_LA92_NN_Pan18650PF','03-27-17_09.06 10degC_US06_Pan18650PF','03-28-17_12.51 10degC_Cycle_1_Pan18650PF','03-28-17_18.18 10degC_Cycle_2_Pan18650PF','04-05-17_17.04 10degC_Cycle_3_Pan18650PF','04-05-17_22.50 10degC_Cycle_4_Pan18650PF','05-30-17_12.56 0degC_Cycle_1_Pan18650PF','05-30-17_20.16 0degC_Cycle_2_Pan18650PF','06-01-17_10.36 0degC_LA92_NN_Pan18650PF','06-01-17_10.36 0degC_LA92_Pan18650PF','06-01-17_10.36 0degC_NN_Pan18650PF','06-01-17_15.36 0degC_Cycle_3_Pan18650PF','06-01-17_22.03 0degC_Cycle_4_Pan18650PF','06-02-17_04.58 0degC_US06_Pan18650PF','06-02-17_10.43 0degC_HWFET_Pan18650PF','06-02-17_17.14 0degC_UDDS_Pan18650PF']
+    
   
   test_names_dictionary: 
-    LG: ['\0degC\589_LA92']
-    Calce: ['\Test\TFUDS_050']
+    LG: ['0degC/590_Mixed4','0degC/590_Mixed5','0degC/590_Mixed6','10degC/571_Mixed4','10degC/571_Mixed5','10degC/571_Mixed6','25degC/552_Mixed4','25degC/552_Mixed5','25degC/552_Mixed6','40degC/562_Mixed4','40degC/562_Mixed5','40degC/562_Mixed6','n10degC/602_Mixed4','n10degC/602_Mixed5','n10degC/604_Mixed6','n20degC/611_Mixed4','n20degC/611_Mixed5','n20degC/611_Mixed6']
+    Calce: ['Test/TFUDS_050','Test/TFUDS_080','Test/TFUDS_2550','Test/TFUDS_2580','Test/TFUDS_4550','Test/TFUDS_4580','Test/TUS06_050','Test/TUS06_080','Test/TUS06_2550','Test/TUS06_2580','Test/TUS06_4550','Test/TUS06_4580']
     Nasa: ['B0025_discharge']
-    Madison: ['\03-21-17_09.38 25degC_LA92_Pan18650PF'] 
-
+    Madison: ['06-07-17_08.39 n10degC_HWFET_Pan18650PF','06-07-17_08.39 n10degC_LA92_Pan18650PF','06-07-17_08.39 n10degC_UDDS_Pan18650PF','06-07-17_08.39 n10degC_US06_HWFET_UDDS_LA92_Pan18650PF','06-07-17_08.39 n10degC_US06_Pan18650PF','06-10-17_11.25 n10degC_Cycle_1_Pan18650PF','06-10-17_18.35 n10degC_Cycle_2_Pan18650PF','06-11-17_01.39 n10degC_Cycle_3_Pan18650PF','06-11-17_08.42 n10degC_Cycle_4_Pan18650PF','06-14-17_13.12 n10degC_NN_Pan18650PF','06-23-17_23.35 n20degC_HWFET_Pan18650PF','06-23-17_23.35 n20degC_HWFET_UDDS_LA92_NN_Pan18650PF','06-23-17_23.35 n20degC_LA92_Pan18650PF','06-23-17_23.35 n20degC_NN_Pan18650PF','06-23-17_23.35 n20degC_UDDS_Pan18650PF','06-24-17_04.29 n20degC_Cycle_1_Pan18650PF','06-24-17_11.58 n20degC_Cycle_2_Pan18650PF','06-24-17_19.29 n20degC_Cycle_3_Pan18650PF','06-25-17_03.01 n20degC_Cycle_4_Pan18650PF','06-25-17_10.31 n20degC_US06_Pan18650PF']
+    
+  
 model_trainer:
   root_dir: artifacts/model_trainer/
   experiment_name_tracker: [ ]
   pretrained_model_path_dictionary:
     Madison_17112023_2055_best: artifacts\model_trainerMadison_17112023_2055\trained_model\Madison_17112023_2055_best.h5
-    LG: C:\Users\Harpreet Singh\Documents\Machine Learning\LG-18650HG2-SOC-Estimation\artifacts\model_trainer\results\ABC\trained_model\LG.h5
+    LG_2230  : artifacts\model_trainer\LG_2230\LG_2230.h5
+    Calce_1256: artifacts\model_trainer\Calce_1256\Calce_1256.h5
     #model2: artifacts/data_ingestion/CALCE
 
 
