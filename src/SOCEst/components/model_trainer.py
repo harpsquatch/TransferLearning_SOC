@@ -30,19 +30,21 @@ class modelHO_New(HyperModel):
      
     def __init__(self, config):
         
-        #self.input_dim = config.input_dim
+        self.input_dim = config.input_dim
         self.steps = config.steps
         self.num_features = config.num_features
         self.dense_out = config.dense_out
         
-        self.numberOfLayers = config.numberOfLSTMLayers
-        self.stepUnit = config.stepLSTMunit
-        self.maxUnits = config.maxLSTMunits
+        self.numberOfLayers = config.numberOfLayers
+        self.stepUnit = config.stepUnit
+        self.maxUnits = config.maxUnits
 
         self.numberOfDenseLayers = config.numberOfDenseLayers
         self.stepDenseUnit = config.stepDenseUnit
         self.maxDenseUnits = config.maxDenseUnits
-
+        
+        self.maxDropout = config.maxDropout
+        self.dropoutRateStep = config.dropoutRateStep
         self.layer = config.layer
 
 
@@ -61,39 +63,29 @@ class modelHO_New(HyperModel):
 
         with tf.device("/gpu:0"):
             model = Sequential()
-            model.add(tf.keras.Input(shape=(self.steps,self.num_features)))
+            model.add(tf.keras.Input(shape=(self.input_dim)))
             if self.layer == 'lstm':
                 for i in range(hp.Int('n_layers', 1, self.numberOfLayers)):
-                    model.add(LSTM(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                          step=self.stepUnit),return_sequences=True))
-                model.add(LSTM(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                      step=self.stepUnit),return_sequences=False))
+                    model.add(LSTM(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=True))
+                model.add(LSTM(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=False))
             elif self.layer == 'bilstm':
                 for i in range(hp.Int('n_layers', 1, self.numberOfLayers)):
-                    model.add(Bidirectional(LSTM(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                          step=self.stepUnit),return_sequences=True)))
-                model.add(Bidirectional(LSTM(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                      step=self.stepUnit),return_sequences=False)))
-            if self.layer == 'gru':
+                    model.add(Bidirectional(LSTM(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=True)))
+                model.add(Bidirectional(LSTM(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=False)))
+            elif self.layer == 'gru':
                 for i in range(hp.Int('n_layers', 1, self.numberOfLayers)):
-                    model.add(GRU(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                          step=self.stepUnit),return_sequences=True))
-                model.add(GRU(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                      step=self.stepUnit),return_sequences=False))
+                    model.add(GRU(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=True))
+                model.add(GRU(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=False))
             elif self.layer == 'bigru':
                 for i in range(hp.Int('n_layers', 1, self.numberOfLayers)):
-                    model.add(Bidirectional(GRU(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                          step=self.stepUnit),return_sequences=True)))
-                model.add(Bidirectional(GRU(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, 
-                                      step=self.stepUnit),return_sequences=False)))
+                    model.add(Bidirectional(GRU(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=True)))
+                model.add(Bidirectional(GRU(hp.Int('layer_2_neurons', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=False)))
+            #model.add(Dropout(hp.Float('Dropout_rate', min_value=0, max_value=self.maxDropout, step=self.dropoutRateStep)))
             for i in range(hp.Int('n_layersDense', 1, self.numberOfDenseLayers)):
-                model.add(Dense(hp.Int(f'dense_{i}_units', 
-                                       min_value=self.stepDenseUnit, 
-                                       max_value=self.maxDenseUnits, 
-                                       step=self.stepDenseUnit), 
-                                activation=activationDense))
+                model.add(Dense(hp.Int(f'dense_{i}_units', min_value=self.stepDenseUnit, max_value=self.maxDenseUnits, step=self.stepDenseUnit), activation=activationDense))
             model.add(Dense(self.dense_out, activation=activationDense))
             model.compile(loss=loss_f, optimizer=opt, metrics=['mse', 'mae', 'mape', tf.keras.metrics.RootMeanSquaredError(name='rmse')])
+            #model.summary()
             return model
 
 class modelHO_SEGAN_LSTM(HyperModel):
