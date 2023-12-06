@@ -25,6 +25,7 @@ class DataTransformationConfig:
 @dataclass(frozen=True)   #This is a decorator
 class ModelTrainerConfig:
     root_dir: Path 
+    input_dim: tuple
     steps: int
     num_features: int
     dense_out: int

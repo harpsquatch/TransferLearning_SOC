@@ -98,6 +98,7 @@ class ConfigurationManager:
         create_directories([config.root_dir]) #Create the root_dir = artifacts/data_transformation 
                 
         model_trainer_config = ModelTrainerConfig(
+            input_dim=config.input_dim, 
             root_dir=config.root_dir,     
             steps = params.steps,
             num_features = params.num_features,
