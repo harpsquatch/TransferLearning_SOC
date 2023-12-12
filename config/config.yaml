@@ -26,7 +26,7 @@ data_transformation:
     
   
   test_names_dictionary: 
-    LG: ['0degC/590_Mixed4','0degC/590_Mixed5','0degC/590_Mixed6','10degC/571_Mixed4','10degC/571_Mixed5','10degC/571_Mixed6','25degC/552_Mixed4','25degC/552_Mixed5','25degC/552_Mixed6','40degC/562_Mixed4','40degC/562_Mixed5','40degC/562_Mixed6','n10degC/602_Mixed4','n10degC/602_Mixed5','n10degC/604_Mixed6']
+    LG: ['0degC/590_Mixed4','0degC/590_Mixed5','0degC/590_Mixed6','10degC/571_Mixed4','10degC/571_Mixed5','10degC/571_Mixed6','25degC/552_Mixed4','25degC/552_Mixed5','25degC/552_Mixed6']
     Calce: ['Test/TFUDS_050','Test/TFUDS_080','Test/TFUDS_2550','Test/TFUDS_2580','Test/TFUDS_4550','Test/TFUDS_4580','Test/TUS06_050','Test/TUS06_080','Test/TUS06_2550','Test/TUS06_2580','Test/TUS06_4550','Test/TUS06_4580']
     Nasa: ['B0025_discharge']
     Madison: ['06-07-17_08.39 n10degC_HWFET_Pan18650PF','06-07-17_08.39 n10degC_LA92_Pan18650PF','06-07-17_08.39 n10degC_UDDS_Pan18650PF','06-07-17_08.39 n10degC_US06_HWFET_UDDS_LA92_Pan18650PF','06-07-17_08.39 n10degC_US06_Pan18650PF','06-10-17_11.25 n10degC_Cycle_1_Pan18650PF','06-10-17_18.35 n10degC_Cycle_2_Pan18650PF','06-11-17_01.39 n10degC_Cycle_3_Pan18650PF','06-11-17_08.42 n10degC_Cycle_4_Pan18650PF','06-14-17_13.12 n10degC_NN_Pan18650PF','06-23-17_23.35 n20degC_HWFET_Pan18650PF','06-23-17_23.35 n20degC_HWFET_UDDS_LA92_NN_Pan18650PF','06-23-17_23.35 n20degC_LA92_Pan18650PF','06-23-17_23.35 n20degC_NN_Pan18650PF','06-23-17_23.35 n20degC_UDDS_Pan18650PF','06-24-17_04.29 n20degC_Cycle_1_Pan18650PF','06-24-17_11.58 n20degC_Cycle_2_Pan18650PF','06-24-17_19.29 n20degC_Cycle_3_Pan18650PF','06-25-17_03.01 n20degC_Cycle_4_Pan18650PF','06-25-17_10.31 n20degC_US06_Pan18650PF']
@@ -46,10 +46,9 @@ model_evaluation:
   root_dir: artifacts/model_evaluation
   model_path: artifacts/model_trainer/
   metric_file_name: artifacts/model_evaluation/
-#  model_for_evaluation: ['model1', 'model2']
-#  model_path_dictionary:
-#    model1: artifacts/data_ingestion/CALCE
-#    model2: artifacts/data_ingestion/CALCE
+  model_for_evaluation: ['LG_1319']
+  model_path_dictionary:
+    LG_1319: artifacts\model_trainer\LG_1319\LG_1319.h5
 
 
 

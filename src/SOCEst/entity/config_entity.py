@@ -71,7 +71,10 @@ class ModelEvaluationConfig:
     root_dir: Path
     model_path: Path
     all_params: dict
+    specific_model_path: Path
     metric_file_name: Path
+    model_for_evaluation: List
+    model_path_dictionary: Dict[str, Path]
     mlflow_uri: str
     
 

@@ -19,13 +19,16 @@ class ModelEvaluation:
         self.config = config
 
     def eval_metrics(self, model, actual, pred):
-        rmse = 100 * math.sqrt(np.mean(np.square(np.subtract(pred, actual)))) / np.mean(actual)
-        mse = 100 * np.mean(np.mean(np.square(np.subtract(pred, actual))))
-        mae = 100 * np.mean(np.abs(np.subtract(pred, actual)))
+        rmspe = (np.sqrt(np.mean(np.square(np.subtract(actual, pred)/ actual)))) * 100
+        mse = np.square(np.subtract(actual,pred)).mean() 
+        nrmse = math.sqrt(np.mean(np.square(np.subtract(pred, actual))))/np.mean(actual)
+        rmse = math.sqrt(mse)
+        mape = np.mean(np.abs((actual - pred) / actual)) * 100
+        mae = np.mean(np.abs(actual - pred)) 
         # Replace with actual function to get FLOPS
         flops = get_flops(model, batch_size=64)
 
-        return rmse, mse, mae, flops
+        return rmspe, rmse, mse, mape,mae, flops , nrmse
 
     def log_into_mlflow(self, model_path, experiment_name, test_x, test_y):
         with h5py.File(model_path, 'r') as file:
@@ -37,7 +40,7 @@ class ModelEvaluation:
         with mlflow.start_run():
             predicted_SOC = model.predict(test_x)
 
-            (rmse, mse, mae, flops) = self.eval_metrics(model, test_y, predicted_SOC)
+            #(rmspe, rmse, mse, mape, flops) = self.eval_metrics(model, test_y, predicted_SOC)
             
             test_y = np.asarray(test_y)
             predicted_SOC = np.asarray(predicted_SOC)
@@ -45,17 +48,19 @@ class ModelEvaluation:
             # Saving predicted vs actual figures
             results_df = pd.DataFrame({'Actual': test_y.flatten(), 'Predicted': predicted_SOC.flatten()})
             results_df.to_csv(os.path.join(self.config.metric_file_name, f"{experiment_name}_results.csv"), index=False)
-
+            (rmspe, rmse, mse, mape,mae, flops,nrmse) = self.eval_metrics(model, results_df['Actual'], results_df['Predicted'])
             # Saving metrics as local
-            scores = {"rmse": rmse, "mse": mse, "mae": mae, "flops": flops}
+            scores = {"rmspe": rmspe,"rmse": rmse, "mse": mse, "mape": mape, "mae": mae, "flops": flops, "nrmse":nrmse}
             save_json(path=Path(os.path.join(self.config.metric_file_name, f"{experiment_name}.json")), data=scores)
 
             mlflow.log_params(self.config.all_params)
-
+            mlflow.log_metric("rmspe", rmspe)
             mlflow.log_metric("rmse", rmse)
             mlflow.log_metric("mse", mse)
-            mlflow.log_metric("mae", mae)
+            mlflow.log_metric("mape", mape)
+            mlflow.log_metric("mae", mape)
             mlflow.log_metric("flops", flops)
+            mlflow.log_metric("nrmse", nrmse)
 
             # Model registry does not work with file store
             if tracking_url_type_store != "file":

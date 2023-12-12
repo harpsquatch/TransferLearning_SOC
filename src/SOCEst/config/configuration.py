@@ -183,8 +183,10 @@ class ConfigurationManager:
             root_dir=config.root_dir,
             model_path = config.model_path,
             all_params=params,
-            specific_model_path = specific_model_path
+            specific_model_path = specific_model_path,
             metric_file_name = config.metric_file_name,
+            model_for_evaluation = config.model_for_evaluation,
+            model_path_dictionary = config.model_path_dictionary,
             mlflow_uri="https://dagshub.com/harpreets924/TransferLearning_SOC.mlflow",
         )
 
