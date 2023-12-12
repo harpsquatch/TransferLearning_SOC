@@ -20,7 +20,7 @@ data_parameters:
   steps: 30 
 
 model_parameters:
-  input_dim: (30,3)
+  input_dim: [30,3]
   steps: 30
   num_features: 3 
   dense_out: 1

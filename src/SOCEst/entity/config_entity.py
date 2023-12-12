@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List,Dict  # Add this import
+from typing import List,Dict,Tuple  # Add this import
 
 @dataclass(frozen=True)   #This is a decorator
 class DataIngestionConfig:
@@ -25,7 +25,7 @@ class DataTransformationConfig:
 @dataclass(frozen=True)   #This is a decorator
 class ModelTrainerConfig:
     root_dir: Path 
-    input_dim: tuple
+    input_dim: Tuple[int,int]
     steps: int
     num_features: int
     dense_out: int

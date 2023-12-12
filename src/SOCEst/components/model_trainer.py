@@ -63,7 +63,7 @@ class modelHO_New(HyperModel):
 
         with tf.device("/gpu:0"):
             model = Sequential()
-            model.add(tf.keras.Input(shape=(self.input_dim)))
+            model.add(tf.keras.Input(shape=self.input_dim))
             if self.layer == 'lstm':
                 for i in range(hp.Int('n_layers', 1, self.numberOfLayers)):
                     model.add(LSTM(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, step=self.stepUnit),return_sequences=True))
@@ -93,7 +93,7 @@ class modelHO_SEGAN_LSTM(HyperModel):
     def __init__(self, config):
         # super()._init_()
         
-        #self.input_dim = config.input_dim
+        self.input_dim = config.input_dim
         self.dense_out = config.dense_out
 
         self.numberOfLayers = config.numberOfLayers
@@ -115,7 +115,7 @@ class modelHO_SEGAN_LSTM(HyperModel):
         opt = tf.keras.optimizers.Adam(lr=0.00001)
         with tf.device("/gpu:0"):
             model = Sequential()
-            model.add(tf.keras.Input(shape=(self.input_dim)))
+            model.add(tf.keras.Input(shape=self.input_dim))
             if self.layer == 'lstm':
                 for i in range(hp.Int('n_layers', 1, self.numberOfLayers)):
                     model.add(LSTM(hp.Int(f'lstm_{i}_units', min_value=self.stepUnit, max_value=self.maxUnits, 
