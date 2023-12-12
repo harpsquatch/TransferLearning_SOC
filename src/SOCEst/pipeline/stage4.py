@@ -39,8 +39,13 @@ class ModelEvaluationTrainingPipeline:
 if __name__ == '__main__':
     try:
         logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-        obj = ModelEvaluationTrainingPipeline()
-        obj.main()
+        config = ConfigurationManager()
+        train_x, train_y, test_x, test_y = DataTransformationTrainingPipeline.main()
+        experiment_name = 'abc'
+        experiment_path = config.get_model_evaluation_config.specific_model_path
+        model_evaluation_config = config.get_model_evaluation_config()
+        model_evaluation = ModelEvaluation(config=model_evaluation_config)
+        model_evaluation.log_into_mlflow(experiment_path,experiment_name,test_x,test_y)
         logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
     except Exception as e:
         logger.exception(e)
