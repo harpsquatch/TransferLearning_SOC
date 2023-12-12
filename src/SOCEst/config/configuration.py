@@ -171,18 +171,19 @@ class ConfigurationManager:
         create_directories([config.root_dir])
         
         #In case you want to pass the model_name and then evaluate 
-        #filtered_dictionary = {model: config.model_path_dictionary.get(model, f"{model} not found in train_names") for model in config.model_for_evaluation}
-        #box_filtered_dictionary = ConfigBox(filtered_dictionary)
+        filtered_dictionary = {model: config.model_path_dictionary.get(model, f"{model} not found in train_names") for model in config.model_for_evaluation}
+        box_filtered_dictionary = ConfigBox(filtered_dictionary)
         
-        #model_path = [ ]
-        #for model_name in config.model_for_evaluation:
-        #   path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
-        #    model_path.append(path)
+        specific_model_path = [ ]
+        for model_name in config.model_for_evaluation:
+            path = getattr(box_filtered_dictionary, model_name, f"{model_name} not found in box_filtered_dictionary")
+            specific_model_path.append(path)
 
         model_evaluation_config = ModelEvaluationConfig(
             root_dir=config.root_dir,
             model_path = config.model_path,
             all_params=params,
+            specific_model_path = specific_model_path
             metric_file_name = config.metric_file_name,
             mlflow_uri="https://dagshub.com/harpreets924/TransferLearning_SOC.mlflow",
         )
