@@ -9,7 +9,7 @@ import joblib
 from SOCEst.entity.config_entity import ModelEvaluationConfig
 from SOCEst.utils.common import save_json
 from pathlib import Path
-from keras_flops import get_flops
+#from keras_flops import get_flops
 import h5py
 import math
 from tensorflow.keras.models import load_model
