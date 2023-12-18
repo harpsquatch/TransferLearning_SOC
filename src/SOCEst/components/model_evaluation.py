@@ -26,7 +26,8 @@ class ModelEvaluation:
         mape = np.mean(np.abs((actual - pred) / actual)) * 100
         mae = np.mean(np.abs(actual - pred)) 
         # Replace with actual function to get FLOPS
-        flops = get_flops(model, batch_size=64)
+        #flops = get_flops(model, batch_size=64)
+        flops = 1
 
         return rmspe, rmse, mse, mape,mae, flops , nrmse
 
