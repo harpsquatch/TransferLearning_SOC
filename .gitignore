@@ -1051,12 +1051,9 @@ artifacts/model_trainerMadison_17112023_2055/Madison_17112023_2055/trial_69/tria
 artifacts/model_trainerMadison_17112023_2055/models/model_trainerMadison_17112023_2055.h5
 artifacts/model_trainerMadison_17112023_2055/trained_model/Madison_17112023_2055_best.h5
 artifacts/data_ingestion/LG/LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020/0degC/01-12-18_01.14 589_Charge7.mat
-artifacts
 mlruns
-artifacts/model_evaluation/LG_Calce_TL[1]1443.json
-artifacts/model_evaluation/LG_Calce_TL[1]1443.json
 .gitignore
-artifacts/model_evaluation/Madison_1356.json
-artifacts/model_evaluation/Madison_17112023_2055_best_Calce_TL[10]1436.json
-artifacts/model_evaluation/Madison_Calce_TL[10]1358.json
-artifacts/model_evaluation/metrics.json
+artifacts/data_ingestion
+artifacts/model_evaluation
+artifacts/model_trainer 
+
