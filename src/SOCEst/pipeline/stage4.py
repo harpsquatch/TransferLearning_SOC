@@ -43,7 +43,7 @@ if __name__ == '__main__':
         stage2 = DataTransformationTrainingPipeline()
         train_x, train_y, test_x, test_y = stage2.main()
         model_evaluation_config = config.get_model_evaluation_config()
-        experiment_name = 'test7'
+        experiment_name = 'Nasa_1323'
         for path in model_evaluation_config.specific_model_path: 
             experiment_path = path
         model_evaluation = ModelEvaluation(config=model_evaluation_config)

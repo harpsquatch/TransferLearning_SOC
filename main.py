@@ -3,6 +3,9 @@ from SOCEst import logger
 from SOCEst.pipeline.stage2 import DataTransformationTrainingPipeline
 from SOCEst.pipeline.stage3 import ModelTrainingPipeline
 from SOCEst.pipeline.stage4 import ModelEvaluationTrainingPipeline
+import pandas as pd
+import os
+import numpy as np
 
 """
     STAGE_NAME = "Data Ingestion stage"
@@ -18,20 +21,19 @@ except Exception as e:
 
 
 
-
+ARTIFACTS_DIR = "artifacts/data_transformation"
 STAGE_NAME = "Data Transformation stage"
 try:
     logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
     stage2 = DataTransformationTrainingPipeline()
     train_x, train_y, test_x, test_y = stage2.main()
-    #obj.combine_and_save_data(train_x, train_y, test_x, test_y)
     logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
     logger.exception(e)
     raise e
 
 
-
+"""
 
 STAGE_NAME = "Model Trainer stage"
 try:
@@ -56,6 +58,6 @@ except Exception as e:
     raise e
 
 
-
+"""
 
 
