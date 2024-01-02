@@ -5,7 +5,7 @@ data_ingestion:
   source_URL:
   - LG: https://prod-dcd-datasets-cache-zipfiles.s3.eu-west-1.amazonaws.com/cp3473x7xv-3.zip
   - Calce: https://www.kaggle.com/datasets/harpree/calce-battery-data/download?datasetVersionNumber=1          #Kaggle needs authentication, can be solved by building the API 
-  - Nasa: https://www.kaggle.com/datasets/harpree/nasa-discharge-battery-data/download?datasetVersionNumber=1  #Kaggle needs authentication, can be solved by building the API
+  - Polimi: https://www.kaggle.com/datasets/harpree/nasa-discharge-battery-data/download?datasetVersionNumber=1  #Kaggle needs authentication, can be solved by building the API
   - Madison: https://www.kaggle.com/datasets/harpree/madison-battery-data/download?datasetVersionNumber=1      #Kaggle needs authentication, can be solved by building the API
   unzip_dir: artifacts/data_ingestion
 

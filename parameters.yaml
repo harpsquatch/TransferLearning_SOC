@@ -1,4 +1,4 @@
-mode: 'model_training'  #model_training #transfer_learning
+mode: 'transfer_learning'  #model_training #transfer_learning
 
 transfer_learning_parameters:
   target_dataset: ['Nasa'] 
@@ -12,7 +12,7 @@ transfer_learning_parameters:
 
 
 data_parameters:
-  training_datasets: ['Madison']
+  training_datasets: ['Nasa']
   downsampling: True
   output_capacity: False 
   scale_test: True 
