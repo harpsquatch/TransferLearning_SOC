@@ -38,32 +38,16 @@ class DataTransformationTrainingPipeline:
             
             train_y_complete.append(train_y_each) #These variables are just for test to see what would happen if we dont implement keep_only_y_end
             test_y_complete.append(test_y_each)
-            
-        # Concatenate lists of tuples to NumPy arrays
-        train_x_arr = np.concatenate(train_x, axis=0)
-        train_y_arr = np.concatenate(train_y_complete, axis=0)
-        test_x_arr = np.concatenate(test_x, axis=0)
-        test_y_arr = np.concatenate(test_y_complete, axis=0)
+        
+        data_transformation.preprocess_and_save_to_csv(train_x,train_y_complete,test_x,test_y_complete,data_transformation_config)
 
-        # Flatten the arrays
-        flat_train_x = train_x_arr.reshape(-1, train_x_arr.shape[-1])
-        flat_train_y = train_y_arr.reshape(-1, train_y_arr.shape[-1])
-        flat_test_x = test_x_arr.reshape(-1, test_x_arr.shape[-1])
-        flat_test_y = test_y_arr.reshape(-1, test_y_arr.shape[-1])
-
-        # Convert flattened arrays to DataFrame
-        df_train_x = pd.DataFrame(flat_train_x, columns=["current", "voltage", "temperature"])
-        df_train_y = pd.DataFrame(flat_train_y, columns=["soc"])
-        df_test_x = pd.DataFrame(flat_test_x, columns=["current", "voltage", "temperature"])
-        df_test_y = pd.DataFrame(flat_test_y, columns=["soc"])
-
-        # Save DataFrames to CSV in the artifacts directory
-        df_train = pd.concat([df_train_x, df_train_y], axis=1)
-        df_test = pd.concat([df_test_x, df_test_y], axis=1)
-
-        df_train.to_csv(os.path.join(data_transformation_config.root_dir, "train_data.csv"), index=False)
-        df_test.to_csv(os.path.join(data_transformation_config.root_dir, "test_data.csv"), index=False)
-
+   
+        # Concatenate the data if multiple datasets are provided
+        train_x = np.concatenate(train_x, axis=0)
+        train_y = np.concatenate(train_y, axis=0)
+        test_x = np.concatenate(test_x, axis=0)
+        test_y = np.concatenate(test_y, axis=0)
+        
         return train_x, train_y, test_x, test_y
 
     
