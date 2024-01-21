@@ -170,14 +170,7 @@ class ModelTrainer:
         
         mc = ModelCheckpoint(self.directory + '/%s.h5' % self.config.experiment_name, save_best_only=True, monitor='val_loss')
         
-        history = tuner.search(
-            x=X,
-            y=y,
-            epochs=self.config.epochs,
-            batch_size=self.config.batch_size,
-            validation_split=self.config.validation_split,
-            callbacks=[es, mc]
-        )
+        history = tuner.search(x=X,y=y,epochs=self.config.epochs,batch_size=self.config.batch_size,validation_split=self.config.validation_split,callbacks=[es, mc])
 
         tuner.results_summary()
 

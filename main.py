@@ -20,7 +20,6 @@ except Exception as e:
     """
 
 
-
 ARTIFACTS_DIR = "artifacts/data_transformation"
 STAGE_NAME = "Data Transformation stage"
 try:
@@ -33,7 +32,6 @@ except Exception as e:
     raise e
 
 
-"""
 
 STAGE_NAME = "Model Trainer stage"
 try:
@@ -56,8 +54,4 @@ try:
 except Exception as e:
     logger.exception(e)
     raise e
-
-
-"""
-
 

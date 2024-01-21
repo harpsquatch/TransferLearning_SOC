@@ -1,9 +1,9 @@
 mode: 'model_training'  #model_training #transfer_learning
 
 transfer_learning_parameters:
-  target_dataset: ['Nasa'] 
-  pretrained_model: ['LG_2230']
-  transfer_learning_technique: [7]
+  target_dataset: ['Madison'] 
+  pretrained_model: ['Calce_1157']
+  transfer_learning_technique: [2]
   patience: 50  
   epochs: 1000
   batch_size: 128
@@ -12,7 +12,7 @@ transfer_learning_parameters:
 
 
 data_parameters:
-  training_datasets: ['Madison']
+  training_datasets: ['LG','Calce','Madison']
   downsampling: True
   output_capacity: False 
   scale_test: True 
