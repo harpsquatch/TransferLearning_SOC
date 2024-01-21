@@ -1,5 +1,5 @@
 from SOCEst import logger
-#from SOCEst.pipeline.stage1 import DataIngestionTrainingPipeline
+from SOCEst.pipeline.stage1 import DataIngestionTrainingPipeline
 from SOCEst.pipeline.stage2 import DataTransformationTrainingPipeline
 from SOCEst.pipeline.stage3 import ModelTrainingPipeline
 from SOCEst.pipeline.stage4 import ModelEvaluationTrainingPipeline
@@ -7,8 +7,8 @@ import pandas as pd
 import os
 import numpy as np
 
-"""
-    STAGE_NAME = "Data Ingestion stage"
+
+STAGE_NAME = "Data Ingestion stage"
 try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
    data_ingestion = DataIngestionTrainingPipeline()
@@ -17,8 +17,8 @@ try:
 except Exception as e:
         logger.exception(e)
         raise e
-    """
 
+"""
 
 ARTIFACTS_DIR = "artifacts/data_transformation"
 STAGE_NAME = "Data Transformation stage"
@@ -55,3 +55,4 @@ except Exception as e:
     logger.exception(e)
     raise e
 
+"""
