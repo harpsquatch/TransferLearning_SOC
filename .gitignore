@@ -1060,3 +1060,6 @@ artifacts/model_evaluation/metrics.json
 TFenv
 artifacts/data_ingestion/
 artifacts/model_evaluation
+artifacts/model_trainer
+artifacts/data_transformation
+
