@@ -18,7 +18,7 @@ except Exception as e:
         logger.exception(e)
         raise e
 
-"""
+
 
 ARTIFACTS_DIR = "artifacts/data_transformation"
 STAGE_NAME = "Data Transformation stage"
@@ -54,5 +54,3 @@ try:
 except Exception as e:
     logger.exception(e)
     raise e
-
-"""

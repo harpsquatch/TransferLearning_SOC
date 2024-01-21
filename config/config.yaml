@@ -4,9 +4,9 @@ data_ingestion:
   root_dir: artifacts/data_ingestion
   source_URL:
   - Calce: '1fAQQ9AAV1pmYjaTdVV7GXLleQkGf8Wp6'
-  - Polimi: ''
-  - Madison: ''
-  - LG: ''
+  - Polimi: '1p79NcQO4ytw-xGPWtwtLCa_9vE93FjJ6'
+  - Madison: '1LiFj0ODs6v1WIANyDlvbIMs0eWkJbykH'
+  - LG: '1QHNh7RGobuwc5Tv6so9oat2lm5hl4oSp'
   unzip_dir: artifacts/data_ingestion
 
 data_transformation: 
