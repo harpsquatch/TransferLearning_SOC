@@ -25,9 +25,9 @@ class DataTransformation:
             elif dataset == "Calce":
                 names = names.Calce
                 return self.Calce_get_data(names , downsampling, output_capacity, output_time)
-            elif dataset == "Nasa":
-                names = names.Nasa
-                return self.Nasa_get_data(names , downsampling, output_capacity, output_time)
+            elif dataset == "Polimi":
+                names = names.Polimi
+                return self.Polimi_get_data(names , downsampling, output_capacity, output_time)
             elif dataset == "Madison":
                 names = names.Madison
                 return self.Madison_get_data(names , downsampling, output_capacity, output_time)
@@ -94,43 +94,31 @@ class DataTransformation:
 
         return cycles
     
-    def Nasa_get_data(self, names,downsampling, output_capacity, output_time=False):
+    def Polimi_get_data(self, folders, downsampling, output_capacity, output_time=False):
         cycles = []
-        for name in names:
-            file_path = os.path.join(self.config.data_path.Nasa, f"{name}.xlsx")
-            cycle = pd.read_excel(file_path, sheet_name='Sheet1')
-            x = cycle[["Voltage_measured", "Current_measured", "Temperature_measured"]].to_numpy()
 
-            max_discharge = abs(min(cycle["Capacity"]))
-            cycle["SoC Capacity"] = max_discharge + cycle["Capacity"]
-            cycle["SoC Percentage"] = cycle["SoC Capacity"] / max(cycle["SoC Capacity"])
-            x = cycle[["Voltage_measured", "Current_measured", "Temperature_measured"]].to_numpy()
+        for folder in folders:
+            # Assuming each folder contains CSV files
+            files_in_folder = [f for f in os.listdir(self.config.data_path.Polimi + folder) if f.endswith('.csv')]
 
-            if output_time:
-                cycle['Prog Time'] = cycle['Prog Time'].apply(self._time_string_to_seconds)
-                cycle['Time in Seconds'] = cycle['Prog Time'] - cycle['Prog Time'][0]
+            for file in files_in_folder:
+                print(file)
+                cycle = pd.read_csv(os.path.join(self.config.data_path.Polimi, folder, file))
+                x = cycle[["V","I","T"]].to_numpy()
+                y = cycle[["SoC"]].to_numpy()
 
-            if output_capacity:
-                if output_time:
-                    y = cycle[["SoC Capacity", "Time in Seconds"]].to_numpy()
-                else:
-                    y = cycle[["SoC Capacity"]].to_numpy()
-            else:
-                if output_time:
-                    y = cycle[["SoC Percentage", "Time in Seconds"]].to_numpy()
-                else:
-                    y = cycle[["SoC Percentage"]].to_numpy()
+                # Handle NaN values
+                if np.isnan(np.min(x)) or np.isnan(np.min(y)) or (np.max(x) == np.min(x)):
+                    self.logger.info(f"There is a NaN in cycle {file}, removing row")
+                    x = x[~np.isnan(x).any(axis=1)]
+                    y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
 
-            if np.isnan(np.min(x)) or np.isnan(np.min(y)):
-                self.logger.info("There is a NaN in cycle " + name + ", removing row")
-                x = x[~np.isnan(x).any(axis=1)]
-                y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
-            
-            if downsampling:
-                x = x[0::10]
-                y = y[0::10]
+                if downsampling:
+                    # To change the timestep by 10
+                    x = x[0::10]
+                    y = y[0::10]
 
-            cycles.append((x, y))
+                cycles.append((x, y))
 
         return cycles
     
@@ -139,9 +127,9 @@ class DataTransformation:
         for name in names:
             cycle = pd.read_csv(self.config.data_path.Madison + name + '.csv')
             
-            cycle.columns = ['Current', 'Voltage', 'Temperature', 'SOC']
+            cycle.columns = ['Current', 'Voltage', 'Temperature', 'SoC']
             x = cycle[['Current', 'Voltage', 'Temperature']].values
-            y = cycle['SOC'].values
+            y = cycle['SoC'].values
 
             if np.isnan(np.min(x)) or np.isnan(np.min(y)):
                 self.logger.info("There is a NaN in cycle " + name + ", removing row")
