@@ -40,6 +40,7 @@ class DataTransformation:
         cycles = []
         for name in names:
             cycle = pd.read_csv(self.config.data_path.LG + name + '.csv', skiprows=30)
+            print(cycle)
             cycle.columns = ['Time Stamp','Step','Status','Prog Time','Step Time','Cycle',
                             'Cycle Level','Procedure','Voltage','Current','Temperature','Capacity','WhAccu','Cnt','Empty']
             cycle = cycle[(cycle["Status"] == "TABLE") | (cycle["Status"] == "DCH")]
@@ -81,7 +82,7 @@ class DataTransformation:
         cycles = []
         for name in names:
             cycle = pd.read_csv(self.config.data_path.Calce + name + '.csv')
-
+            print(cycle)
             x = cycle[["V", "I", "T"]].to_numpy()
             y = cycle[["SOC"]].to_numpy()                  
 
@@ -126,7 +127,7 @@ class DataTransformation:
         cycles = []
         for name in names:
             cycle = pd.read_csv(self.config.data_path.Madison + name + '.csv')
-            
+            print(cycle)
             cycle.columns = ['Current', 'Voltage', 'Temperature', 'SoC']
             x = cycle[['Current', 'Voltage', 'Temperature']].values
             y = cycle['SoC'].values
