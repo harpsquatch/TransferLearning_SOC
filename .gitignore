@@ -1061,4 +1061,5 @@ TFenv
 artifacts/data_ingestion/
 artifacts/model_evaluation
 artifacts/data_transformation
+artifacts/model_trainer
 
