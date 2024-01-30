@@ -95,31 +95,32 @@ class DataTransformation:
 
         return cycles
     
-    def Polimi_get_data(self, folders, downsampling, output_capacity, output_time=False):
+    def Polimi_get_data(self,names, downsampling, output_capacity, output_time=False):
         cycles = []
 
-        for folder in folders:
+        #for folder in folders:
             # Assuming each folder contains CSV files
-            files_in_folder = [f for f in os.listdir(self.config.data_path.Polimi + folder) if f.endswith('.csv')]
+            #iles_in_folder = [f for f in os.listdir(self.config.data_path.Polimi + folder) if f.endswith('.csv')]
 
-            for file in files_in_folder:
-                print(file)
-                cycle = pd.read_csv(os.path.join(self.config.data_path.Polimi, folder, file))
-                x = cycle[["V","I","T"]].to_numpy()
-                y = cycle[["SoC"]].to_numpy()
+            #for file in files_in_folder:
+                #print(file)
+        for name in names:
+            cycle = pd.read_csv(self.config.data_path.Polimi + name + '.csv')
+            x = cycle[["V","I","T"]].to_numpy()
+            y = cycle[["SoC"]].to_numpy()
 
-                # Handle NaN values
-                if np.isnan(np.min(x)) or np.isnan(np.min(y)) or (np.max(x) == np.min(x)):
-                    self.logger.info(f"There is a NaN in cycle {file}, removing row")
-                    x = x[~np.isnan(x).any(axis=1)]
-                    y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
+            # Handle NaN values
+            if np.isnan(np.min(x)) or np.isnan(np.min(y)) or (np.max(x) == np.min(x)):
+                self.logger.info("There is a NaN in cycle " + name + ", removing row")
+                x = x[~np.isnan(x).any(axis=1)]
+                y = y[~np.isnan(y).any(axis=1)].reshape(-1, y.shape[1])
 
-                if downsampling:
-                    # To change the timestep by 10
-                    x = x[0::10]
-                    y = y[0::10]
+            if downsampling:
+                # To change the timestep by 10
+                x = x[0::10]
+                y = y[0::10]
 
-                cycles.append((x, y))
+            cycles.append((x, y))
 
         return cycles
     

@@ -12,7 +12,7 @@ transfer_learning_parameters:
 
 
 data_parameters:
-  training_datasets: ['Madison','Calce','LG']
+  training_datasets: ['Polimi']
   downsampling: True
   output_capacity: False 
   scale_test: True 
