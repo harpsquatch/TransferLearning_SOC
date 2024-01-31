@@ -7,7 +7,7 @@ import pandas as pd
 import os
 import numpy as np
 
-
+"""
 STAGE_NAME = "Data Ingestion stage"
 try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
@@ -18,7 +18,7 @@ except Exception as e:
         logger.exception(e)
         raise e
 
-
+"""
 
 ARTIFACTS_DIR = "artifacts/data_transformation"
 STAGE_NAME = "Data Transformation stage"
