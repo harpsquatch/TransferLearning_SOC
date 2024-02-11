@@ -30,4 +30,4 @@ class DataIngestion:
                 if not os.path.exists(local_data_file):  # Check if the file already exists
                     self.download_file_from_google_drive(file_id, local_data_file)
                     self.extract_zip(local_data_file, self.config.unzip_dir)
-                    os.remove(local_data_file)  # Remove the zip file after extraction
+                    #os.remove(local_data_file)  # Remove the zip file after extraction
