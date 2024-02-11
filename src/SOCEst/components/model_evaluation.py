@@ -9,7 +9,7 @@ import joblib
 from SOCEst.entity.config_entity import ModelEvaluationConfig
 from SOCEst.utils.common import save_json
 from pathlib import Path
-from keras_flops import get_flops
+#from keras_flops import get_flops
 import h5py
 import math
 from tensorflow.keras.models import load_model
@@ -26,8 +26,8 @@ class ModelEvaluation:
         mape = np.mean(np.abs((actual - pred) / actual)) * 100
         mae = np.mean(np.abs(actual - pred)) 
         # Replace with actual function to get FLOPS
-        flops = get_flops(model, batch_size=64)
-        #flops = 1
+        #flops = get_flops(model, batch_size=64)
+        flops = 1
 
         return rmspe, rmse, mse, mape,mae, flops , nrmse
 
