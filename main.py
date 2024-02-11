@@ -8,7 +8,7 @@ import os
 import numpy as np
 from SOCEst.config.configuration import ConfigurationManager
 
-"""
+
 STAGE_NAME = "Data Ingestion stage"
 try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
@@ -19,7 +19,6 @@ except Exception as e:
         logger.exception(e)
         raise e
 
-"""
 for name in range(1,17,1):                  ####################################### THis has to be removed 
     
     
