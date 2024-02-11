@@ -47,7 +47,7 @@ model_evaluation:
   root_dir: artifacts/model_evaluation
   model_path: artifacts/model_trainer/
   metric_file_name: artifacts/model_evaluation/
-  model_for_evaluation: ['Polimi_2217']
+  model_for_evaluation: ['LG_1319']
   model_path_dictionary:
     LG_1319: artifacts\model_trainer\LG_1319\LG_1319.h5
     Calce_1157: artifacts\model_trainer\Calce_1157\Calce_1157.h5

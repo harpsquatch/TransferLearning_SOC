@@ -6,6 +6,7 @@ from SOCEst.pipeline.stage4 import ModelEvaluationTrainingPipeline
 import pandas as pd
 import os
 import numpy as np
+from SOCEst.config.configuration import ConfigurationManager
 
 """
 STAGE_NAME = "Data Ingestion stage"
@@ -19,38 +20,45 @@ except Exception as e:
         raise e
 
 """
-
-ARTIFACTS_DIR = "artifacts/data_transformation"
-STAGE_NAME = "Data Transformation stage"
-try:
-    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-    stage2 = DataTransformationTrainingPipeline()
-    train_x, train_y, test_x, test_y = stage2.main()
-    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-    logger.exception(e)
-    raise e
-
-
-
-STAGE_NAME = "Model Trainer stage"
-try:
-    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-    stage3 = ModelTrainingPipeline(train_x, train_y)
-    stage3.main()
-    experiment_name_tracker = stage3.experiment_name_tracker
-    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-    logger.exception(e)
-    raise e
+for name in range(1,17,1):                  ####################################### THis has to be removed 
+    
+    
+    
+    ARTIFACTS_DIR = "artifacts/data_transformation"
+    STAGE_NAME = "Data Transformation stage"
+    try:
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        stage2 = DataTransformationTrainingPipeline()
+        train_x, train_y, test_x, test_y = stage2.main()
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+    except Exception as e:
+        logger.exception(e)
+        raise e
+    
+    
+    config = ConfigurationManager()
+    transfer_learning_config = config.get_transfer_learning_config()
+    transfer_learning_config.transfer_learning_technique 
 
 
-STAGE_NAME = "Model evaluation stage"
-try:
-    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-    stage4 = ModelEvaluationTrainingPipeline(test_x, test_y,experiment_name_tracker)
-    stage4.main()
-    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-    logger.exception(e)
-    raise e
+    STAGE_NAME = "Model Trainer stage"
+    try:
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        stage3 = ModelTrainingPipeline(train_x, train_y,name)
+        stage3.main()
+        experiment_name_tracker = stage3.experiment_name_tracker
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+    except Exception as e:
+        logger.exception(e)
+        raise e
+
+
+    STAGE_NAME = "Model evaluation stage"
+    try:
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        stage4 = ModelEvaluationTrainingPipeline(test_x, test_y,experiment_name_tracker)
+        stage4.main()
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+    except Exception as e:
+        logger.exception(e)
+        raise e

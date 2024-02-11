@@ -1059,7 +1059,5 @@ artifacts/model_evaluation/Madison_Calce_TL[10]1358.json
 artifacts/model_evaluation/metrics.json
 TFenv
 artifacts/data_ingestion/
-artifacts/model_evaluation
 artifacts/data_transformation
-artifacts/model_trainer
 

@@ -54,18 +54,18 @@ class ModelEvaluation:
             scores = {"rmspe": rmspe,"rmse": rmse, "mse": mse, "mape": mape, "mae": mae, "flops": flops, "nrmse":nrmse}
             save_json(path=Path(os.path.join(self.config.metric_file_name, f"{experiment_name}.json")), data=scores)
 
-            mlflow.log_params(self.config.all_params)
-            mlflow.log_metric("rmspe", rmspe)
-            mlflow.log_metric("rmse", rmse)
-            mlflow.log_metric("mse", mse)
-            mlflow.log_metric("mape", mape)
-            mlflow.log_metric("mae", mape)
-            mlflow.log_metric("flops", flops)
-            mlflow.log_metric("nrmse", nrmse)
+#            mlflow.log_params(self.config.all_params)
+#            mlflow.log_metric("rmspe", rmspe)
+#            mlflow.log_metric("rmse", rmse)
+#            mlflow.log_metric("mse", mse)
+#            mlflow.log_metric("mape", mape)
+#            mlflow.log_metric("mae", mape)
+#            mlflow.log_metric("flops", flops)
+#            mlflow.log_metric("nrmse", nrmse)
 
             # Model registry does not work with file store
-            if tracking_url_type_store != "file":
+#            if tracking_url_type_store != "file":
                 # Register the model
-                mlflow.keras.log_model(model, "model", registered_model_name="Transfer Learning")
-            else:
-                mlflow.keras.log_model(model, "model")
+#                mlflow.keras.log_model(model, "model", registered_model_name="Transfer Learning")
+#            else:
+#                mlflow.keras.log_model(model, "model")

@@ -1,8 +1,8 @@
-mode: 'model_training'  #model_training #transfer_learning
+mode: 'transfer_learning'  #model_training #transfer_learning
 
 transfer_learning_parameters:
-  target_dataset: ['Madison'] 
-  pretrained_model: ['Calce_1157']
+  target_dataset: ['Polimi'] 
+  pretrained_model: ['LG_1319']
   transfer_learning_technique: [2]
   patience: 50  
   epochs: 1000

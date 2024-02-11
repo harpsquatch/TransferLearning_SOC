@@ -177,33 +177,44 @@ class ModelTrainer:
         best_model = tuner.get_best_models(num_models=1)[0]
 
         return best_model, history
-    
+   
     def transfer_learning(self, X, y, model, technique):
         tf_model = TransferLearningModel()
-        optimizer = tf.keras.optimizers.Adam(lr=0.00001)
-        loss_f = tf.keras.losses.Huber()
-        es = EarlyStopping(monitor='val_loss', patience=self.config.patience)
 
         if technique == 1:
-            model = tf_model.transfer_learning1(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning1(X, y, model,self.config)
         elif technique == 2:
-            model = tf_model.transfer_learning2(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning2(X, y, model,self.config)
         elif technique == 3:
-            model = tf_model.transfer_learning3(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning3(X, y, model,self.config)
         elif technique == 4:
-            model = tf_model.transfer_learning4(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning4(X, y, model,self.config)
         elif technique == 5:
-            model = tf_model.transfer_learning5(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning5(X, y, model,self.config)
         elif technique == 6:
-            model = tf_model.transfer_learning6(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning6(X, y, model,self.config)
         elif technique == 7:
-            model = tf_model.transfer_learning7(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning7(X, y, model,self.config)
         elif technique == 8:
-            model = tf_model.transfer_learning8(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning8(X, y, model,self.config)
         elif technique == 9:
-            model = tf_model.transfer_learning9(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning9(X, y, model,self.config)
         elif technique == 10:
-            model = tf_model.transfer_learning10(X, y, model, optimizer, loss_f, es, self.config.epochs, self.config.batch_size, self.config.validation_split)
+            model = tf_model.transfer_learning10(X, y, model,self.config)
+        elif technique == 11:
+            model = tf_model.transfer_learning11(X, y, model,self.config)
+        elif technique == 12:
+            model = tf_model.transfer_learning12(X, y, model,self.config)
+        elif technique == 13:
+            model = tf_model.transfer_learning13(X, y, model,self.config)
+        elif technique == 14:
+            model = tf_model.transfer_learning14(X, y, model,self.config)
+        elif technique == 15:
+            model = tf_model.transfer_learning15(X, y, model,self.config)
+        elif technique == 16:
+            model = tf_model.transfer_learning16(X, y, model,self.config)
+        elif technique == 17:
+            model = tf_model.transfer_learning17(X, y, model,self.config)
         else:
             raise ValueError("Invalid transfer learning technique")
 
