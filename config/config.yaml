@@ -41,6 +41,10 @@ model_trainer:
     LG_1319: artifacts\model_trainer\LG_1319\LG_1319.h5
     Madison_1610: artifacts\model_trainer\Madison_1610\Madison_1610.h5
     Calce_1157: artifacts\model_trainer\Calce_1157\Calce_1157.h5
+    CalceLG_1759: artifacts\model_trainer\CalceLG_1759\CalceLG_1759.h5
+    CalceMadison_1557: artifacts\model_trainer\CalceMadison_1557\CalceMadison_1557.h5
+    MadisonCalceLG_1000: artifacts\model_trainer\MadisonCalceLG_1000\MadisonCalceLG_1000.h5
+    MadisonLG_2334: artifacts\model_trainer\MadisonLG_2334\MadisonLG_2334.h5
 
 
 model_evaluation:
