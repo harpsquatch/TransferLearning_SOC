@@ -15,7 +15,7 @@ data_transformation:
   data_path: 
     LG: artifacts/data_ingestion/LG/LG/LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020/
     Calce: artifacts/data_ingestion/CALCE/
-    Polimi: 'artifacts\data_ingestion\Polimi'\
+    Polimi: artifacts\data_ingestion\Polimi/
     Madison: artifacts/data_ingestion/Madison/Madison/
 
   train_names_dictionary: 
