@@ -13,10 +13,10 @@ data_transformation:
   root_dir: artifacts/data_transformation
  
   data_path: 
-    LG: artifacts/data_ingestion/LG/LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020/
+    LG: artifacts/data_ingestion/LG/LG/LG_HG2_Original_Dataset_McMasterUniversity_Jan_2020/
     Calce: artifacts/data_ingestion/CALCE/
-    Polimi: artifacts/data_ingestion/Polimi/
-    Madison: artifacts/data_ingestion/Madison/
+    Polimi: artifacts/data_ingestion/Polimi/Polimi/
+    Madison: artifacts/data_ingestion/Madison/Madison/
 
   train_names_dictionary: 
     LG: ['0degC/589_LA92','0degC/589_Mixed1','0degC/589_Mixed2','0degC/589_UDDS','0degC/589_US06','0degC/590_Mixed7','0degC/590_Mixed8','10degC/582_LA92','10degC/567_Mixed1','10degC/567_Mixed2','10degC/576_UDDS','10degC/567_US06','10degC/571_Mixed7','10degC/571_Mixed8','25degC/551_LA92','25degC/551_Mixed1','25degC/551_Mixed2','25degC/551_UDDS','25degC/551_US06','25degC/552_Mixed3','25degC/552_Mixed7','25degC/552_Mixed8','40degC/556_LA92','40degC/556_Mixed1','40degC/556_Mixed2','40degC/556_UDDS','40degC/556_US06','40degC/557_Mixed3','40degC/562_Mixed7','40degC/562_Mixed8','n10degC/596_LA92','n10degC/601_Mixed1','n10degC/601_Mixed2','n10degC/596_UDDS','n10degC/601_US06','n10degC/604_Mixed3','n10degC/604_Mixed7','n10degC/604_Mixed8']
