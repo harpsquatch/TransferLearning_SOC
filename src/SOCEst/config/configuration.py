@@ -134,7 +134,7 @@ class ConfigurationManager:
         training_datasets = self.parameters.data_parameters.training_datasets
         target_dataset = self.parameters.transfer_learning_parameters.target_dataset
         
-        experiment_name = f"{'_'.join(target_dataset)}_TL{params.transfer_learning_technique}{datetime.now().strftime('%H%M')}"
+        experiment_name = f"{'_'.join(target_dataset)}_{datetime.now().strftime('%H%M')}"
 
         #The following is just transfer learning, Get the path for the pretrained paths
         filtered_dictionary = {model: config.pretrained_model_path_dictionary.get(model, f"{model} not found in train_names") for model in params.pretrained_model}
