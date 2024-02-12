@@ -36,7 +36,7 @@ model_trainer:
   root_dir: artifacts/model_trainer/
   experiment_name_tracker: [ ]
   pretrained_model_path_dictionary:
-    LG_1319: artifacts\model_trainer\LG_1319\LG_1319.h5
+    LG_1319: artifacts/model_trainer/LG_1319/LG_1319.h5
     Madison_1610: Madison_1610.h5
     Calce_1157: artifacts\model_trainer\Calce_1157\Calce_1157.h5
     CalceLG_1759: artifacts\model_trainer\CalceLG_1759\CalceLG_1759.h5
