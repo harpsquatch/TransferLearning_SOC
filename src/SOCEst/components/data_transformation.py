@@ -34,7 +34,6 @@ class DataTransformation:
             else:
                 raise ValueError(f"Unsupported dataset type: {dataset}")
 
-
         
     def Lg_get_data(self, names, downsampling, output_capacity, output_time=False):
         cycles = []

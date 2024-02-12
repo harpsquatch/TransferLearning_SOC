@@ -13,10 +13,10 @@ import os
 
 STAGE_NAME = "Model Training Stage"
 class ModelTrainingPipeline:
-    def __init__(self,train_x, train_y,technique):
+    def __init__(self,train_x, train_y): #technique
         self.train_x = train_x
         self.train_y = train_y
-        self.technique = technique        ###################################### THis has to be removed 
+        #self.technique = technique        ###################################### THis has to be removed 
     def model_training(self, config): 
         
         #Get the data from stage3 which is specifically prepared for model training
@@ -46,15 +46,17 @@ class ModelTrainingPipeline:
         for model_path in config.pretrained_model_path:
             with h5py.File(model_path, 'r') as file:
                 #Load the model 
-                model = load_model(file)
+                model = load_model(file, compile=False)
                 
+                model.summary()
                 #Collect the name of the model for documentation 
                 base_filename = os.path.splitext(os.path.basename(model_path))[0]
                 
                 #Implement the transfer learning and return the model
                 
                 #for tl_technique in config.transfer_learning_technique:
-                tl_model = model_trainer.transfer_learning(self.train_x, self.train_y, model, self.technique)            ####################################### transfer_learning_technique has to be added 
+                tl_model = model_trainer.transfer_learning(self.train_x, self.train_y, model, config.transfer_learning_technique)
+                #tl_model = model_trainer.transfer_learning(self.train_x, self.train_y, model, self.technique)            ####################################### transfer_learning_technique has to be added 
                 tl_model.summary()
                 
                 #New experiment name is created in order to correctly distingush the models

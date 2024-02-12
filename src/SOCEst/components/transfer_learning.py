@@ -27,7 +27,6 @@ class TransferLearningModel:
     def coral_loss(self,y_true, y_pred):
         source_covariance = tf.linalg.matmul(tf.transpose(y_true), y_true)
         target_covariance = tf.linalg.matmul(tf.transpose(y_pred), y_pred)
-
         coral_loss = tf.reduce_sum(tf.square(source_covariance - target_covariance))
         return coral_loss
     

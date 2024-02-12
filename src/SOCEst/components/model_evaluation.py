@@ -33,7 +33,7 @@ class ModelEvaluation:
 
     def log_into_mlflow(self, model_path, experiment_name, test_x, test_y):
         with h5py.File(model_path, 'r') as file:
-            model = load_model(file)
+            model = load_model(file,compile=False)
 
         mlflow.set_registry_uri(self.config.mlflow_uri)
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme

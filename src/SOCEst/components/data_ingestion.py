@@ -27,7 +27,14 @@ class DataIngestion:
         for source in self.config.source_URL:
             for name, file_id in source.items():
                 local_data_file = f'{name}.zip'
-                if not os.path.exists(local_data_file):  # Check if the file already exists
-                    self.download_file_from_google_drive(file_id, local_data_file)
-                    self.extract_zip(local_data_file, self.config.unzip_dir)
-                    os.remove(local_data_file)  # Remove the zip file after extraction
+                unzip_dir = f'artifacts\data_ingestion\{name}'
+                if not os.path.exists(unzip_dir):  # Check if the directory already exists
+                    if not os.path.exists(local_data_file):  # Check if the file already exists
+                        self.download_file_from_google_drive(file_id, local_data_file)
+                        self.extract_zip(local_data_file, unzip_dir)
+                        os.remove(local_data_file)  # Remove the zip file after extraction
+                    else:
+                        logger.info(f"File {local_data_file} already exists.")
+                else:
+                    logger.info(f"Directory {unzip_dir} already exists.")
+

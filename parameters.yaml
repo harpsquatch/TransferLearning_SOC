@@ -3,10 +3,10 @@ mode: 'transfer_learning'  #model_training #transfer_learning
 transfer_learning_parameters:
   target_dataset: ['Polimi'] 
   pretrained_model: ['LG_1319']
-  transfer_learning_technique: [2]
+  transfer_learning_technique: 17
   patience: 50  
   epochs: 1000
-  batch_size: 128
+  batch_size: 1 #128
   validation_split: 0.2
   layer: 'bilstm'
 
