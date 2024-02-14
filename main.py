@@ -19,17 +19,17 @@ except Exception as e:
         logger.exception(e)
         raise e
 
-for name in range(1,18,1):                  ####################################### THis has to be removed 
-    ARTIFACTS_DIR = "artifacts/data_transformation"
-    STAGE_NAME = "Data Transformation stage"
-    try:
-        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-        stage2 = DataTransformationTrainingPipeline()
-        train_x, train_y, test_x, test_y = stage2.main()
-        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-    except Exception as e:
-        logger.exception(e)
-        raise e
+#for name in range(1,18,1):                  ####################################### THis has to be removed 
+ARTIFACTS_DIR = "artifacts/data_transformation"
+STAGE_NAME = "Data Transformation stage"
+try:
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+   stage2 = DataTransformationTrainingPipeline()
+   train_x, train_y, test_x, test_y = stage2.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+   logger.exception(e)
+   raise e
 
 
     STAGE_NAME = "Model Trainer stage"
