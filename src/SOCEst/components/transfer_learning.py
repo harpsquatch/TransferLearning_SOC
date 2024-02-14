@@ -249,7 +249,7 @@ class TransferLearningModel:
 
 
     def transfer_learning10(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -285,7 +285,7 @@ class TransferLearningModel:
 
 
     def transfer_learning11(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -324,7 +324,7 @@ class TransferLearningModel:
 
 
     def transfer_learning12(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -347,7 +347,7 @@ class TransferLearningModel:
 
 
     def transfer_learning13(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -385,7 +385,7 @@ class TransferLearningModel:
         return model
 
     def transfer_learning14(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -416,7 +416,7 @@ class TransferLearningModel:
         return model
 
     def transfer_learning15(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -450,7 +450,7 @@ class TransferLearningModel:
         return model
 
     def transfer_learning16(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
@@ -469,7 +469,7 @@ class TransferLearningModel:
         return model
 
     def transfer_learning17(self,X, y, model, config):
-        opt = tf.keras.optimizers.Adam(lr=0.001)
+        opt = tf.keras.optimizers.legacy.Adam(lr=0.001)
         loss_f = tf.keras.losses.Huber()
         es = EarlyStopping(monitor='val_loss', patience=config.patience)
 
