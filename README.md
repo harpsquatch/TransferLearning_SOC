@@ -22,15 +22,24 @@ This repository contains a multi-stage pipeline for estimating the State of Char
 
 This SOC estimation pipeline leverages various machine learning techniques to accurately estimate the State of Charge (SOC) of an Energy Storage System (ESS). The key stages of the pipeline involve data ingestion, data transformation, model training, and model evaluation. The deployment of transfer learning techniques in the model training stage enables the utilization of pre-trained models on related tasks. In the context of SOC estimation, transfer learning allows the model to leverage knowledge gained from similar energy storage datasets, improving the overall accuracy and efficiency of the SOC estimation process. This approach is particularly valuable when working with limited labelled data, as the pre-trained models bring valuable insights and patterns learned from other relevant domains.
 
+This repository implements a hyperparameter optimization framework for State of Charge (SOC) estimation models, leveraging transfer learning techniques. The project includes custom neural network architectures such as LSTM, BiLSTM, GRU, and their bidirectional variants, combined with Dense layers. It also features advanced tuning capabilities using Keras Tuner (Bayesian and Random Search) and integration with TensorFlow for training on GPU.
+
+
 ## Stages
 
 1. **Data Ingestion Stage:** Downloads and extracts data required for the SOC estimation process.
 
-2. **Data Transformation Stage:** Prepares training and testing datasets for model training.
+2. **Data Transformation Stage:** The data processing pipeline in this project handles multiple battery datasets by performing key steps to prepare them for State of Charge (SoC) estimation model training. First, raw datasets from sources such as LG, CALCE, Madison, and Polimi are extracted, followed by data cleaning to handle missing values, noise, and irrelevant features. Outliers are also addressed during this step. Feature engineering focuses on extracting and computing essential SoC-related features, such as voltage, current, and temperature, while aggregating battery behavior over charge/discharge cycles. Once key features are derived, data normalization is applied to ensure consistency, typically using techniques like Min-Max scaling or Z-score normalization. The datasets are then merged to create a large, diverse dataset for transfer learning, ensuring consistent feature spaces and time-series alignment. The processed data is split into training, validation, and testing sets using time-series splitting methods to preserve temporal relationships. Finally, for models like BiLSTM, the data is reshaped into sequences, with sliding windows capturing the sequential nature of battery cycles, grouping consecutive cycles into sequences to model SoC transitions over time.
 
 3. **Model Training Stage:** Utilizes the prepared datasets to train models for SOC estimation, incorporating transfer learning techniques.
-
-4. **Model Evaluation Stage:** Evaluate the trained models using a separate testing dataset.
+   Key components:
+    **HyperModel Class**: For building SOC estimation models, supporting LSTM, BiLSTM, GRU, and Bidirectional versions.
+    **Transfer Learning Module**: Offers 17 different transfer learning techniques for model fine-tuning on new datasets.
+    **Hyperparameter Optimization**: Uses Bayesian optimization to tune learning rates, activation functions, dropout rates, and network structure.
+    **Callback Integration**: EarlyStopping and ModelCheckpoint for efficient model training.
+    **Model Trainer**: Combines hyperparameter tuning and transfer learning for optimal model performance.
+   
+4. **Model Evaluation Stage:** Evaluate the trained models using a separate testing dataset. The ModelEvaluation class handles evaluating a machine learning model for State of Charge (SoC) estimation, calculating performance metrics, and logging the results to MLflow. It initializes with a configuration object containing essential parameters like the MLflow URI and file paths. The eval_metrics method computes several key evaluation metrics, including Root Mean Square Percentage Error (RMSPE), Root Mean Square Error (RMSE), Mean Squared Error (MSE), Mean Absolute Percentage Error (MAPE), Mean Absolute Error (MAE), Normalized Root Mean Square Error (NRMSE), and FLOPS (Floating Point Operations per Second), though the FLOPS value is currently set to 1 as a placeholder. The log_into_mlflow method loads the trained model, predicts the SoC on the test dataset, calculates the evaluation metrics, and saves both the metrics and the predicted versus actual results locally and in MLflow for experiment tracking.
 
 
 ## Getting Started
